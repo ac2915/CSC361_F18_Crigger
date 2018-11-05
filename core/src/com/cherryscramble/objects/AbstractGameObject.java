@@ -3,7 +3,7 @@
  * AbstractGameObject: Super Class for all of the objects to implement
  */
 
-package objects;
+package com.cherryscramble.objects;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
