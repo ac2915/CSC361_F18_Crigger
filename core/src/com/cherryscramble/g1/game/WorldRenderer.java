@@ -3,13 +3,13 @@
  * 
  * @author Allen Crigger
  */
-package com.cherryscramble.game;
+package com.cherryscramble.g1.game;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Disposable;
-import com.cherryscramble.game.WorldController;
-import com.cherryscramble.util.Constants;
+import com.cherryscramble.g1.game.WorldController;
+import com.cherryscramble.g1.util.Constants;
 
 public class WorldRenderer implements Disposable
 {
