@@ -1,5 +1,6 @@
 package com.cherryscramble.game.desktop;
 
+import com.badlogic.gdx.Files;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.cherryscramble.g1.CherryScrambleMain;
@@ -14,7 +15,7 @@ public class DesktopLauncher {
 		
 		// -= Window Title and Icon =-
 		config.title = "Cherry Scramble!";  // Window Title
-		//config.addIcon(path, fileType);   Window Icon
+		config.addIcon("assets-raw/icons/CherryIcon.png", Files.FileType.Internal);     //Window Icon
 		
 		// -= Window Resolution =-
 		config.height = 576; // Window Height (18 tiles high)
