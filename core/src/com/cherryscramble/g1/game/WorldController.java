@@ -4,13 +4,12 @@
  * World Controller for Cherry Scramble
  */
 
-package com.cherryscramble.game;
+package com.cherryscramble.g1.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
-import com.cherryscramble.util.CameraHelper;
-//import com.csc361.g1.game.Level;
-import com.cherryscramble.util.Constants;
+import com.cherryscramble.g1.util.CameraHelper;
+import com.cherryscramble.g1.util.Constants;
 
 public class WorldController extends InputAdapter {
 	private static final String TAG = WorldController.class.getName();

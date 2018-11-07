@@ -4,7 +4,7 @@
  * CameraHelper
  */
 
-package com.cherryscramble.util;
+package com.cherryscramble.g1.util;
 
 public class CameraHelper {
 

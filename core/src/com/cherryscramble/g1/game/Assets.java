@@ -3,7 +3,7 @@
  * Assets Class: Holds all of the game's assets
  */
 
-package com.cherryscramble.game;
+package com.cherryscramble.g1.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetDescriptor;

@@ -4,7 +4,7 @@
  * Cherry Scramble's constants
  */
 
-package com.cherryscramble.util;
+package com.cherryscramble.g1.util;
 
 public class Constants {
 	// Visible game world is 5 meters wide
