@@ -14,6 +14,8 @@ import com.cherryscramble.g1.util.Constants;
 public class WorldController extends InputAdapter {
 	private static final String TAG = WorldController.class.getName();
 	
+	public Level level;
+	
 	//GUI Vars
 	
 	
@@ -42,7 +44,7 @@ public class WorldController extends InputAdapter {
 	 */
 	private void initLevel() {
 		//score = 0;
-		//level = new Level(Constants.LEVEL_01);
+		level = new Level(Constants.LEVEL_01);
 	}
 	
 	/**
