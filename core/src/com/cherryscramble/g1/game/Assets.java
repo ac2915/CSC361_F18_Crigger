@@ -22,7 +22,9 @@ public class Assets implements Disposable, AssetErrorListener {
 	private AssetManager assetManager;
 	
 	// -= Assets =-
-	public AssetGround ground;
+	public AssetGround ground;					// Ground Asset
+	public AssetTrunkWallLeft trunkWallLeft;	// TrunkWallLeft Asset
+	public AssetTrunkWallRight trunkWallRight;	// TrunkWallRight Asset
 	
 	/**
 	 * Initializes the assets
@@ -97,6 +99,30 @@ public class Assets implements Disposable, AssetErrorListener {
 		
 		public AssetGround(TextureAtlas atlas) {
 			ground = atlas.findRegion("Ground");
+		}
+	}
+	
+	/**
+	 * Pulls the TrunkWallLeft texture from the atlas
+	 */
+	public class AssetTrunkWallLeft
+	{
+		public final AtlasRegion trunkWallLeft;
+		
+		public AssetTrunkWallLeft(TextureAtlas atlas) {
+			trunkWallLeft = atlas.findRegion("TrunkWallLeft");
+		}
+	}
+	
+	/**
+	 * Pulls the TrunkWallRight texture from the atlas
+	 */
+	public class AssetTrunkWallRight
+	{
+		public final AtlasRegion trunkWallRight;
+		
+		public AssetTrunkWallRight(TextureAtlas atlas) {
+			trunkWallRight = atlas.findRegion("TrunkWallRight");
 		}
 	}
 
