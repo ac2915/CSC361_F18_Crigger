@@ -46,11 +46,17 @@ public class Assets implements Disposable, AssetErrorListener {
 			Gdx.app.debug(TAG, "asset: " + a);
 		TextureAtlas atlas = assetManager.get(Constants.TEXTURE_ATLAS_OBJECTS);
 				
-		// enable texture filtering for pixel smoothing
+		/*
+		// enable texture filtering for pixel smoothing (DOES NOT LOOK GOOD FOR ME, but will keep in here for now)
 		for (Texture t : atlas.getTextures())
 			t.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		*/
 		
+		// Texture assets
 		ground = new AssetGround(atlas);
+		trunkWallLeft = new AssetTrunkWallLeft(atlas);
+		trunkWallRight = new AssetTrunkWallRight(atlas);
+		
 	}
 
 	/**

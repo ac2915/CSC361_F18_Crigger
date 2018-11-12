@@ -27,7 +27,7 @@ public class Level {
 	public enum BLOCK_TYPE {
 		EMPTY(0, 0, 0), 				// Empty spaces are Black.
 		GROUND(181,230,29),				// Ground
-		TRUNKWALL_LEFT(83,41,0),		// TrunkWall Left
+		TRUNKWALL_LEFT(153,217,234),	// TrunkWall Left
 		TRUNKWALL_RIGHT(185,122,87);	// TrunkWall Right
 		
 		private int color;
@@ -89,28 +89,39 @@ public class Level {
 				
 				//Ground
 				else if (BLOCK_TYPE.GROUND.sameColor(currentPixel)) {
+					System.out.println("found ground");
 					obj = new Ground();
-					offsetHeight = -1.5f;
+					offsetHeight = -2.0f;
 					obj.position.set(pixelX,baseHeight * obj.dimension.y + offsetHeight);
 					grounds.add((Ground)obj);
 				}
 				
 				//TrunkWall Left
 				else if (BLOCK_TYPE.TRUNKWALL_LEFT.sameColor(currentPixel)) {
+					System.out.println("found left trunk!");
 					obj = new TrunkWallLeft();
-					offsetHeight = -1.5f;
+					//offsetHeight = -1.5f; No Offset Right Now.
 					obj.position.set(pixelX,baseHeight * obj.dimension.y + offsetHeight);
 					leftTrunkWalls.add((TrunkWallLeft)obj);
 				}
-
+				
 				//TrunkWall Right
 				else if (BLOCK_TYPE.TRUNKWALL_RIGHT.sameColor(currentPixel)) {
 					obj = new TrunkWallRight();
-					offsetHeight = -1.5f;
+					//offsetHeight = -1.5f; No Offset Right Now.
 					obj.position.set(pixelX,baseHeight * obj.dimension.y + offsetHeight);
 					rightTrunkWalls.add((TrunkWallRight)obj);
 				}
-
+				
+				//Unknown object/pixel color
+				else {
+					int r = 0xff & (currentPixel >>> 24); //Red color channel
+					int g = 0xff & (currentPixel >>> 16); //Green color channel
+					int b = 0xff & (currentPixel >>> 8); //Blue color channel
+					int a = 0xff & currentPixel; //Alpha channel
+					Gdx.app.error(TAG, "Unknown object at x<" + pixelX + "> y<" + pixelY + ">: r<" + r + "> g<" + g + "> b<" + b + "> a<" + a + ">");
+				}
+				
 				lastPixel = currentPixel;
 			}
 		}

@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.cherryscramble.g1.game.Assets;
 
 public class TrunkWallLeft extends AbstractGameObject {
-	private TextureRegion regTrunkWallLeft;
+	private TextureRegion regTrunkWallLeft; // Texture Region
 	
 	/**
 	 * Initialize TrunkWallLeft
