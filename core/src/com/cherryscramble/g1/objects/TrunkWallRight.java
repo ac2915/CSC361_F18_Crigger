@@ -1,41 +1,38 @@
 /**
- * Holds information about the Ground Texture Asset
+ * Holds information about the TrunkWallRight texture asset
  */
+
 package com.cherryscramble.g1.objects;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.cherryscramble.g1.game.Assets;
-import com.cherryscramble.g1.objects.AbstractGameObject;
 
-public class Ground extends AbstractGameObject {
-	private TextureRegion regGround; // Ground Texture Region
+public class TrunkWallRight extends AbstractGameObject {
+	private TextureRegion regTrunkWallRight;
 	
 	/**
-	 * Initialize ground.
+	 * Initializes TrunkWallRight
 	 */
-	public Ground()
+	public TrunkWallRight()
 	{
 		init();
 	}
 	
 	/**
-	 * Ground Properties
+	 * Properties for the TrunkWallRight asset
 	 */
-	private void init () {
-		dimension.set(1.0f, 2.0f);
-		regGround = Assets.instance.ground.ground;
-		
-		// Set bounding box for collision detection
-		//bounds.set(0, 0, dimension.x, dimension.y);
+	public void init(){
+		dimension.set(1.0f, 1.0f);
+		regTrunkWallRight = Assets.instance.trunkWallRight.trunkWallRight;
 	}
 	
 	/**
-	 * Rendering properties of the ground asset
+	 * Rendering Properties for the TrunkWallRight asset
 	 */
 	public void render(SpriteBatch batch) {
 		TextureRegion reg = null;
-		reg = regGround;
+		reg = regTrunkWallRight;
 		batch.draw(reg.getTexture(), position.x, position.y, origin.x, origin.y, dimension.x, dimension.y, scale.x, scale.y,
 		rotation, reg.getRegionX(), reg.getRegionY(), reg.getRegionWidth(), reg.getRegionHeight(), false, false);
 	}

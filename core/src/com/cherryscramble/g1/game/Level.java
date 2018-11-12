@@ -8,22 +8,27 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
-import com.cherryscramble.g1.game.Level.BLOCK_TYPE;
 import com.cherryscramble.g1.objects.AbstractGameObject;
 import com.cherryscramble.g1.objects.Ground;
+import com.cherryscramble.g1.objects.TrunkWallLeft;
+import com.cherryscramble.g1.objects.TrunkWallRight;
 
 public class Level {
 	public static final String TAG = Level.class.getName();
 	
 	//Assets
 	public Array<Ground> grounds;
+	public Array<TrunkWallLeft> leftTrunkWalls;
+	public Array<TrunkWallRight> rightTrunkWalls;
 	
 	/**
 	 * Color coordination. Sets colors to specific kind of object
 	 */
 	public enum BLOCK_TYPE {
-		EMPTY(0, 0, 0), 	// Empty spaces are Black.
-		GROUND(181,230,29);	// Ground
+		EMPTY(0, 0, 0), 				// Empty spaces are Black.
+		GROUND(181,230,29),				// Ground
+		TRUNKWALL_LEFT(153,217,234),	// TrunkWall Left
+		TRUNKWALL_RIGHT(185,122,87);	// TrunkWall Right
 		
 		private int color;
 		
@@ -55,7 +60,9 @@ public class Level {
 		Pixmap pixmap = new Pixmap(Gdx.files.internal(filename));
 		
 		//Assets
-		grounds = new Array<Ground>(); //Ground
+		grounds = new Array<Ground>(); 					// Ground
+		leftTrunkWalls = new Array<TrunkWallLeft>();	// Left TrunkWall
+		rightTrunkWalls = new Array<TrunkWallRight>();	// Right TrunkWall
 				
 		//Scan pixels from top-left to bottom-right
 		int lastPixel = -1;
@@ -82,10 +89,37 @@ public class Level {
 				
 				//Ground
 				else if (BLOCK_TYPE.GROUND.sameColor(currentPixel)) {
+					System.out.println("found ground");
 					obj = new Ground();
-					offsetHeight = -1.5f;
+					offsetHeight = -2.0f;
 					obj.position.set(pixelX,baseHeight * obj.dimension.y + offsetHeight);
 					grounds.add((Ground)obj);
+				}
+				
+				//TrunkWall Left
+				else if (BLOCK_TYPE.TRUNKWALL_LEFT.sameColor(currentPixel)) {
+					System.out.println("found left trunk!");
+					obj = new TrunkWallLeft();
+					//offsetHeight = -1.5f; No Offset Right Now.
+					obj.position.set(pixelX,baseHeight * obj.dimension.y + offsetHeight);
+					leftTrunkWalls.add((TrunkWallLeft)obj);
+				}
+				
+				//TrunkWall Right
+				else if (BLOCK_TYPE.TRUNKWALL_RIGHT.sameColor(currentPixel)) {
+					obj = new TrunkWallRight();
+					//offsetHeight = -1.5f; No Offset Right Now.
+					obj.position.set(pixelX,baseHeight * obj.dimension.y + offsetHeight);
+					rightTrunkWalls.add((TrunkWallRight)obj);
+				}
+				
+				//Unknown object/pixel color
+				else {
+					int r = 0xff & (currentPixel >>> 24); //Red color channel
+					int g = 0xff & (currentPixel >>> 16); //Green color channel
+					int b = 0xff & (currentPixel >>> 8); //Blue color channel
+					int a = 0xff & currentPixel; //Alpha channel
+					Gdx.app.error(TAG, "Unknown object at x<" + pixelX + "> y<" + pixelY + ">: r<" + r + "> g<" + g + "> b<" + b + "> a<" + a + ">");
 				}
 				
 				lastPixel = currentPixel;
@@ -104,6 +138,13 @@ public class Level {
 		//Draw Ground objects
 		for (Ground ground : grounds)
 			ground.render(batch);
+		
+		//Draw the TrunkWalls
+		for (TrunkWallLeft trunkwallleft : leftTrunkWalls)
+			trunkwallleft.render(batch);
+		
+		for (TrunkWallRight trunkwallright : rightTrunkWalls)
+			trunkwallright.render(batch);
 	}
 	
 	/**
@@ -111,7 +152,14 @@ public class Level {
 	 * @param deltaTime
 	 */
 	public void update (float deltaTime) {
+		//Ground
 		for(Ground ground : grounds)
 			ground.update(deltaTime);
+		//TrunkWall Left
+		for (TrunkWallLeft trunkwallleft : leftTrunkWalls)
+			trunkwallleft.update(deltaTime);
+		//TrunkWall Right
+		for (TrunkWallRight trunkwallright : rightTrunkWalls)
+			trunkwallright.update(deltaTime);
 	}
 }

@@ -22,7 +22,9 @@ public class Assets implements Disposable, AssetErrorListener {
 	private AssetManager assetManager;
 	
 	// -= Assets =-
-	public AssetGround ground;
+	public AssetGround ground;					// Ground Asset
+	public AssetTrunkWallLeft trunkWallLeft;	// TrunkWallLeft Asset
+	public AssetTrunkWallRight trunkWallRight;	// TrunkWallRight Asset
 	
 	/**
 	 * Initializes the assets
@@ -44,11 +46,17 @@ public class Assets implements Disposable, AssetErrorListener {
 			Gdx.app.debug(TAG, "asset: " + a);
 		TextureAtlas atlas = assetManager.get(Constants.TEXTURE_ATLAS_OBJECTS);
 				
-		// enable texture filtering for pixel smoothing
+		/*
+		// enable texture filtering for pixel smoothing (DOES NOT LOOK GOOD FOR ME, but will keep in here for now)
 		for (Texture t : atlas.getTextures())
 			t.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		*/
 		
+		// Texture assets
 		ground = new AssetGround(atlas);
+		trunkWallLeft = new AssetTrunkWallLeft(atlas);
+		trunkWallRight = new AssetTrunkWallRight(atlas);
+		
 	}
 
 	/**
@@ -97,6 +105,30 @@ public class Assets implements Disposable, AssetErrorListener {
 		
 		public AssetGround(TextureAtlas atlas) {
 			ground = atlas.findRegion("Ground");
+		}
+	}
+	
+	/**
+	 * Pulls the TrunkWallLeft texture from the atlas
+	 */
+	public class AssetTrunkWallLeft
+	{
+		public final AtlasRegion trunkWallLeft;
+		
+		public AssetTrunkWallLeft(TextureAtlas atlas) {
+			trunkWallLeft = atlas.findRegion("TrunkWallLeft");
+		}
+	}
+	
+	/**
+	 * Pulls the TrunkWallRight texture from the atlas
+	 */
+	public class AssetTrunkWallRight
+	{
+		public final AtlasRegion trunkWallRight;
+		
+		public AssetTrunkWallRight(TextureAtlas atlas) {
+			trunkWallRight = atlas.findRegion("TrunkWallRight");
 		}
 	}
 
