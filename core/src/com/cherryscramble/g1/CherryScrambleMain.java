@@ -34,6 +34,7 @@ private static final String TAG = CherryScrambleMain.class.getName();
 		// Initialize controller and renderer
 		worldController = new WorldController();
 		worldRenderer = new WorldRenderer(worldController);
+		
 		// Game world is active on start
 		paused = false;
 	}
