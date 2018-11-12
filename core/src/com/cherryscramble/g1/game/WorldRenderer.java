@@ -52,18 +52,18 @@ public class WorldRenderer implements Disposable
 	 * @param batch
 	 */
 	private void renderWorld(SpriteBatch batch) {
-		//worldController.cameraHelper.applyTo(camera);
-		//batch.setProjectionMatrix(camera.combined);
-		//batch.begin();
-		//worldController.level.render(batch);
-		//batch.end();
+		worldController.cameraHelper.applyTo(camera);
+		batch.setProjectionMatrix(camera.combined);
+		batch.begin();
+		worldController.level.render(batch);
+		batch.end();
 	}
 	
 	/**
 	 * Render the world.
 	 */
 	public void render() {
-		//renderWorld(batch);
+		renderWorld(batch);
 		//renderGui(batch);
 	}
 

@@ -18,7 +18,7 @@ public class Ground extends AbstractGameObject {
 	}
 	
 	private void init () {
-		dimension.set(0.008466667f, 0.016933333f);
+		dimension.set(1.0f, 1.0f);
 		regGround = Assets.instance.ground.ground;
 		
 		// Set bounding box for collision detection
