@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import com.cherryscramble.g1.objects.AbstractGameObject;
 import com.cherryscramble.g1.objects.Ground;
+import com.cherryscramble.g1.objects.Shrub;
 import com.cherryscramble.g1.objects.Stump;
 import com.cherryscramble.g1.objects.TrunkWallLeft;
 import com.cherryscramble.g1.objects.TrunkWallRight;
@@ -24,6 +25,9 @@ public class Level {
 	public Array<TrunkWallRight> rightTrunkWalls;   // Right TrunkWall Array
 	public Array<WoodPlatform> platforms;			// Platform Array
 	public Array<Stump> stumps;						// Stump Array
+	
+	//Decoration
+	public Shrub shrub;								// Shrub Background
 	
 	/**
 	 * Color coordination. Sets colors to specific kind of object
@@ -154,6 +158,10 @@ public class Level {
 			}
 		}
 		
+		//Finally some decoration
+		shrub = new Shrub();
+		shrub.position.set(1, 2);
+		
 		//Free memory
 		pixmap.dispose();
 		Gdx.app.debug(TAG, "level '" + filename + "' loaded");
@@ -163,6 +171,9 @@ public class Level {
 	 * Renders the objects into the level.
 	 */
 	public void render (SpriteBatch batch) {
+		// -=-= BAKCGROUND =-=-
+		shrub.render(batch); // Render Shrub 
+		
 		//Draw Ground objects
 		for (Ground ground : grounds)
 			ground.render(batch);

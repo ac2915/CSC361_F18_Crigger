@@ -13,7 +13,7 @@ import com.cherryscramble.g1.CherryScrambleMain;
 
 public class DesktopLauncher {
 	
-	private static boolean rebuildAtlas = false;		// Boolean of atlas rebuild
+	private static boolean rebuildAtlas = true;		// Boolean of atlas rebuild
 	private static boolean drawDebugOutline = false;	// Boolean for draw debug
 	
 	public static void main (String[] arg) {	
