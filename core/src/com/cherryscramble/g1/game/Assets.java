@@ -25,6 +25,7 @@ public class Assets implements Disposable, AssetErrorListener {
 	public AssetGround ground;					// Ground Asset
 	public AssetTrunkWallLeft trunkWallLeft;	// TrunkWallLeft Asset
 	public AssetTrunkWallRight trunkWallRight;	// TrunkWallRight Asset
+	public AssetWoodenPlatform woodplatform;    // Wooden Platform
 	
 	/**
 	 * Initializes the assets
@@ -56,6 +57,7 @@ public class Assets implements Disposable, AssetErrorListener {
 		ground = new AssetGround(atlas);
 		trunkWallLeft = new AssetTrunkWallLeft(atlas);
 		trunkWallRight = new AssetTrunkWallRight(atlas);
+		woodplatform = new AssetWoodenPlatform(atlas);
 		
 	}
 
@@ -129,6 +131,22 @@ public class Assets implements Disposable, AssetErrorListener {
 		
 		public AssetTrunkWallRight(TextureAtlas atlas) {
 			trunkWallRight = atlas.findRegion("TrunkWallRight");
+		}
+	}
+	
+	/**
+	 * Pulls the WoodenPlatform texture from the atlas
+	 */
+	public class AssetWoodenPlatform
+	{
+		public final AtlasRegion leftEdge;
+		public final AtlasRegion rightEdge;
+		public final AtlasRegion middle;
+		
+		public AssetWoodenPlatform(TextureAtlas atlas) {
+			leftEdge = atlas.findRegion("PlatformLeft");
+			rightEdge = atlas.findRegion("PlatformRight");
+			middle = atlas.findRegion("PlatformMiddle");
 		}
 	}
 
