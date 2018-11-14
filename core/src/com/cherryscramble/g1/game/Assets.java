@@ -19,13 +19,14 @@ public class Assets implements Disposable, AssetErrorListener {
 	public static final Assets instance = new Assets();
 	private AssetManager assetManager;
 	
-	// -= Assets =-
+	// -= Intractable Assets =-
 	public AssetGround ground;					// Ground Asset
 	public AssetTrunkWallLeft trunkWallLeft;	// TrunkWallLeft Asset
 	public AssetTrunkWallRight trunkWallRight;	// TrunkWallRight Asset
 	public AssetWoodenPlatform woodplatform;    // Wooden Platform Asset
 	public AssetStump stump;					// Stump Asset
 	
+	// -= Decoration Assets =-
 	public AssetLevelDecoration decoration;		// Level Decoration Assets
 	
 	/**
@@ -77,9 +78,11 @@ public class Assets implements Disposable, AssetErrorListener {
 	 */
 	public class AssetLevelDecoration {
 		public final AtlasRegion shrub;
+		public final AtlasRegion treetop;
 		
 		public AssetLevelDecoration(TextureAtlas atlas) {
 			shrub = atlas.findRegion("Shrub");
+			treetop = atlas.findRegion("TreeTops");
 		}
 	}
 

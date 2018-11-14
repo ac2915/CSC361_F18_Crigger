@@ -60,11 +60,31 @@ public class WorldRenderer implements Disposable
 	}
 	
 	/**
+	 * Renders the GUI layer that displays the player's level, score, and FPS
+	 * @param batch
+	 */
+	private void renderGui(SpriteBatch batch) {
+		batch.setProjectionMatrix(cameraGUI.combined);
+		batch.begin();
+		// draw collected gold coins icon + text
+		// (anchored to top left edge)
+		renderGuiScore(batch);
+		// draw FPS text (anchored to bottom right edge)
+		renderGuiFpsCounter(batch);
+		// draw the game start text
+		
+		// draw game over text
+		renderGuiGameOverMessage(batch);
+		
+		batch.end();
+	}
+	
+	/**
 	 * Render the world.
 	 */
 	public void render() {
 		renderWorld(batch);
-		//renderGui(batch);
+		renderGui(batch);
 	}
 
 	/**
@@ -83,4 +103,10 @@ public class WorldRenderer implements Disposable
 	public void dispose() {
 		batch.dispose();
 	}
+	
+	/**
+	 * 
+	 *  ============ GUI Renders Below!! ============
+	 * 
+	 */
 }

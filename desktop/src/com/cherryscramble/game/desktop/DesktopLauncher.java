@@ -35,8 +35,8 @@ public class DesktopLauncher {
 		// Rebuilds the texture atlases when they need to be recompiled
 		if (rebuildAtlas) {
 			Settings settings = new Settings();
-			settings.maxWidth = 1024;
-			settings.maxHeight = 1024;
+			settings.maxWidth = 2048;
+			settings.maxHeight = 2048;
 			settings.debug = drawDebugOutline; //Draws an outline around the images
 			
 			// Process the textures and merge it into a texture atlas
