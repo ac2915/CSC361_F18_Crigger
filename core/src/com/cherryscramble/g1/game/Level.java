@@ -12,6 +12,7 @@ import com.cherryscramble.g1.objects.AbstractGameObject;
 import com.cherryscramble.g1.objects.Ground;
 import com.cherryscramble.g1.objects.Shrub;
 import com.cherryscramble.g1.objects.Stump;
+import com.cherryscramble.g1.objects.TreeTop;
 import com.cherryscramble.g1.objects.TrunkWallLeft;
 import com.cherryscramble.g1.objects.TrunkWallRight;
 import com.cherryscramble.g1.objects.WoodPlatform;
@@ -19,15 +20,16 @@ import com.cherryscramble.g1.objects.WoodPlatform;
 public class Level {
 	public static final String TAG = Level.class.getName();
 	
-	//Assets
+	// ===== Object Assets =====
 	public Array<Ground> grounds;					// Ground Object Array
 	public Array<TrunkWallLeft> leftTrunkWalls;		// Left TrunkWall Array
 	public Array<TrunkWallRight> rightTrunkWalls;   // Right TrunkWall Array
 	public Array<WoodPlatform> platforms;			// Platform Array
 	public Array<Stump> stumps;						// Stump Array
 	
-	//Decoration
+	// ===== Decoration Assets =====
 	public Shrub shrub;								// Shrub Background
+	public TreeTop treetop;							// TreeTop Foreground
 	
 	/**
 	 * Color coordination. Sets colors to specific kind of object
@@ -159,8 +161,15 @@ public class Level {
 		}
 		
 		//Finally some decoration
+		
+		//Shrub background at the bottom
 		shrub = new Shrub();
 		shrub.position.set(1, 2);
+		
+		//TreeTop foreground at the top
+		treetop = new TreeTop();
+		treetop.position.set(0, 15);
+		
 		
 		//Free memory
 		pixmap.dispose();
@@ -171,8 +180,11 @@ public class Level {
 	 * Renders the objects into the level.
 	 */
 	public void render (SpriteBatch batch) {
-		// -=-= BAKCGROUND =-=-
+		// -=-= BACKGROUND =-=-
 		shrub.render(batch); // Render Shrub 
+		
+		
+		// -=-= SAME LAYER =-=-
 		
 		//Draw Ground objects
 		for (Ground ground : grounds)
@@ -192,6 +204,9 @@ public class Level {
 		// Draw the stumps
 		for (Stump stump: stumps)
 			stump.render(batch);
+		
+		// -=-= FOREGROUND =-=-
+		treetop.render(batch);
 	}
 	
 	/**

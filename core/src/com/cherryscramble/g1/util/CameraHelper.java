@@ -23,7 +23,9 @@ public class CameraHelper {
 	private AbstractGameObject target;
 
 	public CameraHelper() {
-		position = new Vector2();
+		//NOTE: 9,10 is the western most the camera should go.
+		//      23,10 is the eastern most the camera should go.
+		position = new Vector2(23,10);
 		zoom = 1.0f;
 	}
 
