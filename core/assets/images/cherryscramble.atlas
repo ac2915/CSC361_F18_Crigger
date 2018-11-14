@@ -1,6 +1,6 @@
 
 cherryscramble.png
-size: 256,128
+size: 1024,128
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
@@ -13,91 +13,98 @@ GoldCherry
   index: -1
 GreenCherry
   rotate: false
-  xy: 36, 68
+  xy: 36, 2
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 Ground
   rotate: false
-  xy: 2, 36
+  xy: 964, 36
   size: 32, 64
   orig: 32, 64
   offset: 0, 0
   index: -1
 PlatformLeft
   rotate: false
-  xy: 36, 34
+  xy: 70, 2
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 PlatformMiddle
   rotate: false
-  xy: 70, 68
+  xy: 104, 2
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 PlatformRight
   rotate: false
-  xy: 70, 34
+  xy: 138, 2
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 Player
   rotate: false
-  xy: 104, 68
+  xy: 172, 2
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 PurpleCherry
   rotate: false
-  xy: 104, 34
+  xy: 206, 2
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 RedCherry
   rotate: false
-  xy: 138, 68
+  xy: 240, 2
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
+Shrub
+  rotate: false
+  xy: 2, 36
+  size: 960, 64
+  orig: 960, 64
+  offset: 0, 0
+  index: -1
 StumpLeft
   rotate: false
-  xy: 206, 68
+  xy: 376, 2
   size: 31, 32
   orig: 31, 32
   offset: 0, 0
   index: -1
 StumpMiddle
   rotate: false
-  xy: 138, 34
+  xy: 274, 2
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 StumpRight
   rotate: false
-  xy: 206, 34
+  xy: 409, 2
   size: 31, 32
   orig: 31, 32
   offset: 0, 0
   index: -1
 TrunkWallLeft
   rotate: false
-  xy: 172, 68
+  xy: 308, 2
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 TrunkWallRight
   rotate: false
-  xy: 172, 34
+  xy: 342, 2
   size: 32, 32
   orig: 32, 32
   offset: 0, 0

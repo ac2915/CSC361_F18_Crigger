@@ -26,6 +26,8 @@ public class Assets implements Disposable, AssetErrorListener {
 	public AssetWoodenPlatform woodplatform;    // Wooden Platform Asset
 	public AssetStump stump;					// Stump Asset
 	
+	public AssetLevelDecoration decoration;		// Level Decoration Assets
+	
 	/**
 	 * Initializes the assets
 	 * @param assetManager: My assetManager
@@ -58,6 +60,7 @@ public class Assets implements Disposable, AssetErrorListener {
 		trunkWallRight = new AssetTrunkWallRight(atlas);
 		woodplatform = new AssetWoodenPlatform(atlas);
 		stump = new AssetStump(atlas);
+		decoration = new AssetLevelDecoration(atlas);
 		
 	}
 
@@ -69,11 +72,15 @@ public class Assets implements Disposable, AssetErrorListener {
 	}
 	
 	/**
-	 * Level Decoration class (hidden inside the Assets class)
+	 * Level Decoration class. 
 	 *
 	 */
 	public class AssetLevelDecoration {
+		public final AtlasRegion shrub;
 		
+		public AssetLevelDecoration(TextureAtlas atlas) {
+			shrub = atlas.findRegion("Shrub");
+		}
 	}
 
 	/**
