@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import com.cherryscramble.g1.objects.AbstractGameObject;
 import com.cherryscramble.g1.objects.Ground;
+import com.cherryscramble.g1.objects.Stump;
 import com.cherryscramble.g1.objects.TrunkWallLeft;
 import com.cherryscramble.g1.objects.TrunkWallRight;
 import com.cherryscramble.g1.objects.WoodPlatform;
@@ -18,10 +19,11 @@ public class Level {
 	public static final String TAG = Level.class.getName();
 	
 	//Assets
-	public Array<Ground> grounds;
-	public Array<TrunkWallLeft> leftTrunkWalls;
-	public Array<TrunkWallRight> rightTrunkWalls;
-	public Array<WoodPlatform> platforms;
+	public Array<Ground> grounds;					// Ground Object Array
+	public Array<TrunkWallLeft> leftTrunkWalls;		// Left TrunkWall Array
+	public Array<TrunkWallRight> rightTrunkWalls;   // Right TrunkWall Array
+	public Array<WoodPlatform> platforms;			// Platform Array
+	public Array<Stump> stumps;						// Stump Array
 	
 	/**
 	 * Color coordination. Sets colors to specific kind of object
@@ -31,7 +33,8 @@ public class Level {
 		GROUND(181,230,29),				// Ground
 		TRUNKWALL_LEFT(153,217,234),	// TrunkWall Left
 		TRUNKWALL_RIGHT(185,122,87),	// TrunkWall Right
-		WOOD_PLATFORM(255,201,14);		// Wooden Platform
+		WOOD_PLATFORM(255,201,14),		// Wooden Platform
+		STUMP(79,39,0);					// Stumps
 		
 		private int color;
 		
@@ -67,6 +70,7 @@ public class Level {
 		leftTrunkWalls = new Array<TrunkWallLeft>();	// Left TrunkWall
 		rightTrunkWalls = new Array<TrunkWallRight>();	// Right TrunkWall
 		platforms = new Array<WoodPlatform>();			// Wooden Platforms
+		stumps = new Array<Stump>();					// Stumps
 				
 		//Scan pixels from top-left to bottom-right
 		int lastPixel = -1;
@@ -113,7 +117,7 @@ public class Level {
 					rightTrunkWalls.add((TrunkWallRight)obj);
 				}
 				
-				//Rock
+				//Wooden Platform
 				else if (BLOCK_TYPE.WOOD_PLATFORM.sameColor(currentPixel)) {
 					if (lastPixel != currentPixel) {
 						obj = new WoodPlatform();
@@ -122,6 +126,18 @@ public class Level {
 					} 
 					else {
 						platforms.get(platforms.size - 1).increaseLength(1);
+					}
+				}
+				
+				//Stump
+				else if (BLOCK_TYPE.STUMP.sameColor(currentPixel)) {
+					if (lastPixel != currentPixel) {
+						obj = new Stump();
+						obj.position.set(pixelX,baseHeight * obj.dimension.y + offsetHeight);
+						stumps.add((Stump)obj);
+					} 
+					else {
+						stumps.get(stumps.size - 1).increaseLength(1);
 					}
 				}
 				
@@ -161,6 +177,10 @@ public class Level {
 		// Draw the wooden platforms
 		for (WoodPlatform woodplatforms : platforms)
 			woodplatforms.render(batch);
+		
+		// Draw the stumps
+		for (Stump stump: stumps)
+			stump.render(batch);
 	}
 	
 	/**
@@ -180,5 +200,8 @@ public class Level {
 		//Wood Platforms
 		for (WoodPlatform woodplatforms : platforms)
 			woodplatforms.update(deltaTime);
+		//Stumps
+		for (Stump stump: stumps)
+			stump.update(deltaTime);
 	}
 }

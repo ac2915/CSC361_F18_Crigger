@@ -1,5 +1,5 @@
 /**
- * Class contains the properties for the WoodenPlatform asset and how it renders onto the screen.
+ * Class contains the properties for the stump asset and how it renders onto the screen.
  */
 
 package com.cherryscramble.g1.objects;
@@ -8,28 +8,28 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.cherryscramble.g1.game.Assets;
 
-public class WoodPlatform extends AbstractGameObject {
+public class Stump extends AbstractGameObject {
 	private TextureRegion regLeftEdge;	// Left Edge Texture
 	private TextureRegion regRightEdge; // Right Edge Texture
 	private TextureRegion regMiddle;    // Middle Texture
 	private int length;                 // Length
 
 	/**
-	 * Initializes the Wood Platform
+	 * Initializes the Stump
 	 */
-	public WoodPlatform() {
+	public Stump() {
 		init();
 	}
 	
 	/**
-	 * Wooden Platform properties.
+	 * Stump Properties
 	 */
-	private void init() {
+	public void init() {
 		dimension.set(1f, 1f);
-		regLeftEdge = Assets.instance.woodplatform.leftEdge;
-		regRightEdge = Assets.instance.woodplatform.rightEdge;
-		regMiddle = Assets.instance.woodplatform.middle;
-		//Start length of this platform
+		regLeftEdge = Assets.instance.stump.leftEdge;
+		regRightEdge = Assets.instance.stump.rightEdge;
+		regMiddle = Assets.instance.stump.middle;
+		//Start length of this stump
 		setLength(1);
 	}
 	
@@ -50,20 +50,20 @@ public class WoodPlatform extends AbstractGameObject {
 	}
 	
 	/**
-	 * Rendering properties for the Wood Platform
+	 * Rendering properties of the Stump.
 	 */
 	public void render(SpriteBatch batch) {
 		TextureRegion reg = null;
 		float relX = 0;
 		float relY = 0;
 		
-		//Platform's LeftEdge
+		//Stump's LeftEdge
 		reg = regLeftEdge;
 		relX -= 1f;
 		batch.draw(reg.getTexture(), position.x + relX, position.y + relY, origin.x, origin.y, dimension.x, dimension.y,
 				scale.x, scale.y, rotation, reg.getRegionX(), reg.getRegionY(), reg.getRegionWidth(), reg.getRegionHeight(), false, false);
 		
-		//Platform's Middle
+		//Stumps's Middle
 		relX = 0;
 		reg = regMiddle;
 		for (int i = 0; i < length; i++) {
@@ -71,10 +71,9 @@ public class WoodPlatform extends AbstractGameObject {
 			relX += dimension.x;
 		}
 
-		//Platform's RightEdge
+		//Stump's RightEdge
 		reg = regRightEdge;
 		batch.draw(reg.getTexture(), position.x + relX, position.y + relY, origin.x + dimension.x, origin.y, dimension.x, dimension.y, scale.x, scale.y,
 				rotation, reg.getRegionX(), reg.getRegionY(), reg.getRegionWidth(), reg.getRegionHeight(), false, false);
 	}
-
 }

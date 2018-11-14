@@ -9,8 +9,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetErrorListener;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.utils.Disposable;
@@ -25,7 +23,8 @@ public class Assets implements Disposable, AssetErrorListener {
 	public AssetGround ground;					// Ground Asset
 	public AssetTrunkWallLeft trunkWallLeft;	// TrunkWallLeft Asset
 	public AssetTrunkWallRight trunkWallRight;	// TrunkWallRight Asset
-	public AssetWoodenPlatform woodplatform;    // Wooden Platform
+	public AssetWoodenPlatform woodplatform;    // Wooden Platform Asset
+	public AssetStump stump;					// Stump Asset
 	
 	/**
 	 * Initializes the assets
@@ -58,6 +57,7 @@ public class Assets implements Disposable, AssetErrorListener {
 		trunkWallLeft = new AssetTrunkWallLeft(atlas);
 		trunkWallRight = new AssetTrunkWallRight(atlas);
 		woodplatform = new AssetWoodenPlatform(atlas);
+		stump = new AssetStump(atlas);
 		
 	}
 
@@ -147,6 +147,22 @@ public class Assets implements Disposable, AssetErrorListener {
 			leftEdge = atlas.findRegion("PlatformLeft");
 			rightEdge = atlas.findRegion("PlatformRight");
 			middle = atlas.findRegion("PlatformMiddle");
+		}
+	}
+	
+	/**
+	 * Pulls the Stump texture from the atlas
+	 */
+	public class AssetStump
+	{
+		public final AtlasRegion leftEdge;
+		public final AtlasRegion rightEdge;
+		public final AtlasRegion middle;
+		
+		public AssetStump(TextureAtlas atlas) {
+			leftEdge = atlas.findRegion("StumpLeft");
+			rightEdge = atlas.findRegion("StumpRight");
+			middle = atlas.findRegion("StumpMiddle");
 		}
 	}
 
