@@ -1,0 +1,125 @@
+
+cherryscramble.png
+size: 2048,256
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+GoldCherry
+  rotate: false
+  xy: 964, 100
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+GreenCherry
+  rotate: false
+  xy: 1028, 164
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+Ground
+  rotate: false
+  xy: 2, 2
+  size: 32, 64
+  orig: 32, 64
+  offset: 0, 0
+  index: -1
+GuiB
+  rotate: false
+  xy: 1028, 198
+  size: 800, 32
+  orig: 800, 32
+  offset: 0, 0
+  index: -1
+PlatformLeft
+  rotate: false
+  xy: 1830, 198
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+PlatformMiddle
+  rotate: false
+  xy: 36, 34
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+PlatformRight
+  rotate: false
+  xy: 1062, 164
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+Player
+  rotate: false
+  xy: 1864, 198
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+PurpleCherry
+  rotate: false
+  xy: 70, 34
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+RedCherry
+  rotate: false
+  xy: 1096, 164
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+Shrub
+  rotate: false
+  xy: 2, 68
+  size: 960, 64
+  orig: 960, 64
+  offset: 0, 0
+  index: -1
+StumpLeft
+  rotate: false
+  xy: 1932, 198
+  size: 31, 32
+  orig: 31, 32
+  offset: 0, 0
+  index: -1
+StumpMiddle
+  rotate: false
+  xy: 1898, 198
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+StumpRight
+  rotate: false
+  xy: 138, 34
+  size: 31, 32
+  orig: 31, 32
+  offset: 0, 0
+  index: -1
+TreeTops
+  rotate: false
+  xy: 2, 134
+  size: 1024, 96
+  orig: 1024, 96
+  offset: 0, 0
+  index: -1
+TrunkWallLeft
+  rotate: false
+  xy: 104, 34
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+TrunkWallRight
+  rotate: false
+  xy: 1130, 164
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1

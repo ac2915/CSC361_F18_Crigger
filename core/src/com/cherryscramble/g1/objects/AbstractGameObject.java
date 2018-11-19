@@ -3,10 +3,11 @@
  * AbstractGameObject: Super Class for all of the objects to implement
  */
 
-package com.cherryscramble.objects;
+package com.cherryscramble.g1.objects;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 public abstract class AbstractGameObject {
@@ -16,6 +17,8 @@ public abstract class AbstractGameObject {
 	public Vector2 origin;
 	public Vector2 scale;
 	public float rotation;
+	
+	//public Rectangle bounds; // bounding box of object for collision
 	
 	/**
 	 * Constructor for game objects.
@@ -33,7 +36,7 @@ public abstract class AbstractGameObject {
 	 * @param deltaTime
 	 */
 	public void update(float deltaTime) {
-
+		
 	}
 	
 	/**
