@@ -72,9 +72,13 @@ public class WorldRenderer implements Disposable
 	private void renderGui(SpriteBatch batch) {
 		batch.setProjectionMatrix(cameraGUI.combined);
 		batch.begin();
+		// First, draw the gui background image
 	    renderGuiBackground(batch);
-		//renderGuiScore(batch);
-		// draw FPS text (anchored to bottom right edge)
+	    // Draws the score
+		renderScore(batch);
+		// Draws the time remaining
+		renderTimeRemaining(batch);
+		// Draws the game's current fps
 		renderGuiFpsCounter(batch);
 		// draw the game start text
 		
@@ -138,6 +142,20 @@ public class WorldRenderer implements Disposable
 		}
 		fpsFont.draw(batch, "FPS: " + fps, x, y);
 		fpsFont.setColor(1, 1, 1, 1); // white
+	}
+	
+	/**
+	 * Method draws the player's current score in the upper left corner of the gui panel
+	 */
+	private void renderScore(SpriteBatch batch) {
+		Assets.instance.fonts.defaultNormal.draw(batch, "Score: " + worldController.score, 15, 10);
+	}
+	
+	/**
+	 * Method draws the player's remaining time in the upper middle part of the gui panel
+	 */
+	private void renderTimeRemaining(SpriteBatch batch) {
+		Assets.instance.fonts.defaultNormal.draw(batch, "Time Left: " + worldController.time, 350, 10);
 	}
 	
 	/**

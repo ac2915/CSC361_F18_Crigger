@@ -18,6 +18,7 @@ public class WorldController extends InputAdapter {
 	
 	public Level level;
 	public int score;
+	public int time;
 	
 	//GUI Vars
 	
@@ -47,6 +48,7 @@ public class WorldController extends InputAdapter {
 	 */
 	private void initLevel() {
 		score = 0;
+		time = 99;
 		level = new Level(Constants.LEVEL_01);
 	}
 	
