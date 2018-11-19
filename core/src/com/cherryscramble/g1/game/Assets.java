@@ -9,6 +9,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetErrorListener;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Texture.TextureFilter;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.utils.Disposable;
@@ -18,6 +20,7 @@ public class Assets implements Disposable, AssetErrorListener {
 	public static final String TAG = Assets.class.getName();
 	public static final Assets instance = new Assets();
 	private AssetManager assetManager;
+	public AssetFonts fonts;
 	
 	// -= Intractable Assets =-
 	public AssetGround ground;					// Ground Asset
@@ -27,7 +30,7 @@ public class Assets implements Disposable, AssetErrorListener {
 	public AssetStump stump;					// Stump Asset
 	
 	// -= Decoration Assets =-
-	public AssetLevelDecoration decoration;		// Level Decoration Assets
+	public AssetLevelDecoration decoration;		// Level Decoration Assets (And GUI background)
 	
 	/**
 	 * Initializes the assets
@@ -63,6 +66,9 @@ public class Assets implements Disposable, AssetErrorListener {
 		stump = new AssetStump(atlas);
 		decoration = new AssetLevelDecoration(atlas);
 		
+		// Font Assets
+		fonts = new AssetFonts();
+		
 	}
 
 	/**
@@ -79,10 +85,12 @@ public class Assets implements Disposable, AssetErrorListener {
 	public class AssetLevelDecoration {
 		public final AtlasRegion shrub;
 		public final AtlasRegion treetop;
+		public final AtlasRegion guibackground;
 		
 		public AssetLevelDecoration(TextureAtlas atlas) {
 			shrub = atlas.findRegion("Shrub");
 			treetop = atlas.findRegion("TreeTops");
+			guibackground = atlas.findRegion("GuiB");
 		}
 	}
 
@@ -91,6 +99,10 @@ public class Assets implements Disposable, AssetErrorListener {
 	 */
 	public void dispose() {
 		assetManager.dispose();	
+		
+		fonts.defaultBig.dispose();
+		fonts.defaultNormal.dispose();
+		fonts.defaultSmall.dispose();
 	}
 
 
@@ -173,6 +185,37 @@ public class Assets implements Disposable, AssetErrorListener {
 			leftEdge = atlas.findRegion("StumpLeft");
 			rightEdge = atlas.findRegion("StumpRight");
 			middle = atlas.findRegion("StumpMiddle");
+		}
+	}
+	
+	/**
+	 * Assets to hold CherryScrambles fonts.
+	 *
+	 */
+	public class AssetFonts {
+		// different size fonts to use
+		public final BitmapFont defaultSmall;
+		public final BitmapFont defaultNormal;
+		public final BitmapFont defaultBig;
+
+		/**
+		 * Constructor for fonts, creates the font in three different sizes
+		 */
+		public AssetFonts() {
+			// create three fonts using Libgdx's 15px bitmap font
+			defaultSmall = new BitmapFont(Gdx.files.internal("images/arial-15.fnt"), true);
+			defaultNormal = new BitmapFont(Gdx.files.internal("images/arial-15.fnt"), true);
+			defaultBig = new BitmapFont(Gdx.files.internal("images/arial-15.fnt"), true);
+
+			// set font sizes
+			defaultSmall.getData().setScale(0.75f);
+			defaultNormal.getData().setScale(1.0f);
+			defaultBig.getData().setScale(2.0f);
+
+			// enable linear texture filtering for smooth fonts
+			defaultSmall.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
+			defaultNormal.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
+			defaultBig.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		}
 	}
 
