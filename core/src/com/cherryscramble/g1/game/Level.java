@@ -168,8 +168,7 @@ public class Level {
 		
 		//TreeTop foreground at the top
 		treetop = new TreeTop();
-		treetop.position.set(0, 15);
-		
+		treetop.position.set(0, 15);	
 		
 		//Free memory
 		pixmap.dispose();
@@ -206,7 +205,7 @@ public class Level {
 			stump.render(batch);
 		
 		// -=-= FOREGROUND =-=-
-		treetop.render(batch);
+		treetop.render(batch);	// Draw TreeTops
 	}
 	
 	/**
