@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import com.cherryscramble.g1.objects.AbstractGameObject;
 import com.cherryscramble.g1.objects.Ground;
+import com.cherryscramble.g1.objects.Player;
 import com.cherryscramble.g1.objects.Shrub;
 import com.cherryscramble.g1.objects.Stump;
 import com.cherryscramble.g1.objects.TreeTop;
@@ -20,7 +21,10 @@ import com.cherryscramble.g1.objects.WoodPlatform;
 public class Level {
 	public static final String TAG = Level.class.getName();
 	
-	// ===== Object Assets =====
+	// ===== Player =====
+	public Player player;
+	
+	// ===== Object Assets ======
 	public Array<Ground> grounds;					// Ground Object Array
 	public Array<TrunkWallLeft> leftTrunkWalls;		// Left TrunkWall Array
 	public Array<TrunkWallRight> rightTrunkWalls;   // Right TrunkWall Array
@@ -40,7 +44,8 @@ public class Level {
 		TRUNKWALL_LEFT(153,217,234),	// TrunkWall Left
 		TRUNKWALL_RIGHT(185,122,87),	// TrunkWall Right
 		WOOD_PLATFORM(255,201,14),		// Wooden Platform
-		STUMP(79,39,0);					// Stumps
+		STUMP(79,39,0),					// Stumps
+		PLAYER_SPAWN(255,255,255);		// Player Character Spawn Point
 		
 		private int color;
 		
@@ -71,7 +76,10 @@ public class Level {
 		//Load image file that represents the level data
 		Pixmap pixmap = new Pixmap(Gdx.files.internal(filename));
 		
-		//Assets
+		// Player
+		player = null;	// Player character
+		
+		// Assets
 		grounds = new Array<Ground>(); 					// Ground
 		leftTrunkWalls = new Array<TrunkWallLeft>();	// Left TrunkWall
 		rightTrunkWalls = new Array<TrunkWallRight>();	// Right TrunkWall
@@ -147,6 +155,13 @@ public class Level {
 					}
 				}
 				
+				//TrunkWall Right
+				else if (BLOCK_TYPE.PLAYER_SPAWN.sameColor(currentPixel)) {
+					obj = new Player();
+					obj.position.set(pixelX, baseHeight * obj.dimension.y + offsetHeight);
+					player = (Player) obj;
+				}
+				
 				//Unknown object/pixel color
 				else {
 					int r = 0xff & (currentPixel >>> 24); //Red color channel
@@ -204,6 +219,9 @@ public class Level {
 		for (Stump stump: stumps)
 			stump.render(batch);
 		
+		// Player should be the last thing spawned in the same layer
+		player.render(batch);
+		
 		// -=-= FOREGROUND =-=-
 		treetop.render(batch);	// Draw TreeTops
 	}
@@ -213,6 +231,9 @@ public class Level {
 	 * @param deltaTime
 	 */
 	public void update (float deltaTime) {
+		//Player
+		player.update(deltaTime);
+		
 		//Ground
 		for(Ground ground : grounds)
 			ground.update(deltaTime);

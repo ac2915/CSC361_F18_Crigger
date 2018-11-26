@@ -41,6 +41,7 @@ public class WorldController extends InputAdapter {
 		cameraHelper = new CameraHelper();
 
 		initLevel(); // Initializes the level
+		//b2World.setContactListener(level.player); //Box 2d contact listener
 	}
 	
 	/**

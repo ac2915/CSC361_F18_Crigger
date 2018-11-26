@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 
 public abstract class AbstractGameObject {
 	// Vectors and Rotation to deal with object's position, size, and orientation
@@ -17,6 +18,9 @@ public abstract class AbstractGameObject {
 	public Vector2 origin;
 	public Vector2 scale;
 	public float rotation;
+	
+	//Box 2d body
+	public Body body;
 	
 	//public Rectangle bounds; // bounding box of object for collision
 	
