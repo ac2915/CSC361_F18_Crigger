@@ -60,10 +60,29 @@ public class WorldController extends InputAdapter {
 	public void update(float deltaTime) {
 		handleDebugInput(deltaTime);
 		cameraHelper.update(deltaTime);
+		
+		// TimeLeft game over.
+		if (isGameOver()) {
+
+		} else {
+			handleInput(deltaTime);
+		}
+		
+		level.update(deltaTime); 	// Update level objects
+	}
+	
+	/**
+	 * Game Over Event
+	 * @return
+	 */
+	public boolean isGameOver() {
+		return 1 < 0; // True value to keep the game going for now.
 	}
 	
 	/***
-	 * TESTING STUFF
+	 *       ========= CAMERA DEBUG CONTROLS BELOW =========
+	 *	      Comment out when they are not needed anymore
+	 *       ===============================================
 	 */
 	private void handleDebugInput(float deltaTime) {
 		if (Gdx.app.getType() != ApplicationType.Desktop)
@@ -74,13 +93,13 @@ public class WorldController extends InputAdapter {
 		float camMoveSpeedAccelerationFactor = 5;
 		if (Gdx.input.isKeyPressed(Keys.SHIFT_LEFT))
 			camMoveSpeed *= camMoveSpeedAccelerationFactor;
-		if (Gdx.input.isKeyPressed(Keys.LEFT))
+		if (Gdx.input.isKeyPressed(Keys.A))
 			moveCamera(-camMoveSpeed, 0);
-		if (Gdx.input.isKeyPressed(Keys.RIGHT))
+		if (Gdx.input.isKeyPressed(Keys.D))
 			moveCamera(camMoveSpeed, 0);
-		if (Gdx.input.isKeyPressed(Keys.UP))
+		if (Gdx.input.isKeyPressed(Keys.W))
 			moveCamera(0, camMoveSpeed);
-		if (Gdx.input.isKeyPressed(Keys.DOWN))
+		if (Gdx.input.isKeyPressed(Keys.S))
 			moveCamera(0, -camMoveSpeed);
 		if (Gdx.input.isKeyPressed(Keys.BACKSPACE))
 			cameraHelper.setPosition(0, 0);
@@ -102,5 +121,18 @@ public class WorldController extends InputAdapter {
 		x += cameraHelper.getPosition().x;
 		y += cameraHelper.getPosition().y;
 		cameraHelper.setPosition(x, y);
+	}
+	
+	/**
+	 *  ============== Player Controls Below ============== 
+	 */
+	private void handleInput(float deltatime)
+	{
+		// Player Left/Right Movement
+		if (Gdx.input.isKeyPressed(Keys.LEFT)) {
+			level.player.velocity.x = -level.player.terminalVelocity.x;
+		} else if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
+			level.player.velocity.x = level.player.terminalVelocity.x;
+		}
 	}
 }

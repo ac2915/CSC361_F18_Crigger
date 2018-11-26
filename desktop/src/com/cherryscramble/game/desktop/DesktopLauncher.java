@@ -42,6 +42,7 @@ public class DesktopLauncher {
 			// Process the textures and merge it into a texture atlas
 			TexturePacker.process(settings, "assets-raw/images", "../core/assets/images", "cherryscramble.atlas");
 		}
+		System.out.println("========== Terminal Debug ==========");
 		new LwjglApplication(new CherryScrambleMain(), config); //Create application
 	}
 }
