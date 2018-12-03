@@ -10,6 +10,7 @@ import com.cherryscramble.g1.objects.AbstractGameObject;
 
 public class Ground extends AbstractGameObject {
 	private TextureRegion regGround; // Ground Texture Region
+	private int length;              // Length
 	
 	/**
 	 * Initialize ground.
@@ -26,8 +27,30 @@ public class Ground extends AbstractGameObject {
 		dimension.set(1.0f, 2.0f);
 		regGround = Assets.instance.ground.ground;
 		
+		//Start length of this ground
+		setLength(1);
+		
 		// Set bounding box for collision detection
-		//bounds.set(0, 0, dimension.x, dimension.y);
+		bounds.set(0, 0, dimension.x, dimension.y);
+		origin.set(dimension.x / 2, dimension.y / 2);
+	}
+	
+	/**
+	 * Sets the length of a ground
+	 * @param length = Initial Length of the ground
+	 */
+	public void setLength (int length) {
+		this.length = length;
+		
+		bounds.set(-1.0f, 0, dimension.x * length, dimension.y);
+	}
+		
+	/**
+	 * Increases the length of the ground
+	 * @param amount = Amount to increase the ground by
+	 */
+	public void increaseLength (int amount) {
+		setLength(length + amount);
 	}
 	
 	/**
@@ -35,9 +58,12 @@ public class Ground extends AbstractGameObject {
 	 */
 	public void render(SpriteBatch batch) {
 		TextureRegion reg = null;
+		float relX = 0;
 		reg = regGround;
-		batch.draw(reg.getTexture(), position.x, position.y, origin.x, origin.y, dimension.x, dimension.y, scale.x, scale.y,
-		rotation, reg.getRegionX(), reg.getRegionY(), reg.getRegionWidth(), reg.getRegionHeight(), false, false);
+		for (int i = 0; i < length; i++) {
+			batch.draw(reg.getTexture(), position.x + relX, position.y, origin.x, origin.y, dimension.x, dimension.y, scale.x, scale.y, rotation, reg.getRegionX(), reg.getRegionY(), reg.getRegionWidth(), reg.getRegionHeight(), false, false);
+			relX += dimension.x;
+		}
 	}
 
 }

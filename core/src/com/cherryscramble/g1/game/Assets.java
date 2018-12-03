@@ -22,6 +22,9 @@ public class Assets implements Disposable, AssetErrorListener {
 	private AssetManager assetManager;
 	public AssetFonts fonts;
 	
+	// -= Player =-
+	public AssetPlayer player;
+	
 	// -= Intractable Assets =-
 	public AssetGround ground;					// Ground Asset
 	public AssetTrunkWallLeft trunkWallLeft;	// TrunkWallLeft Asset
@@ -57,6 +60,9 @@ public class Assets implements Disposable, AssetErrorListener {
 		for (Texture t : atlas.getTextures())
 			t.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		*/
+		
+		// Player
+		player = new AssetPlayer(atlas);
 		
 		// Texture assets
 		ground = new AssetGround(atlas);
@@ -119,6 +125,19 @@ public class Assets implements Disposable, AssetErrorListener {
 	 *  ============= Game Asset Clases Below ==============
 	 * 
 	 */
+	
+	/**
+	 * Pulls the player texture from the atlas
+	 */
+	public class AssetPlayer
+	{
+		public final AtlasRegion playerTexture;
+		
+		public AssetPlayer(TextureAtlas atlas)
+		{
+			playerTexture = atlas.findRegion("Player");
+		}
+	}
 	
 	/**
 	 * Pulls the ground texture from the atlas
@@ -203,9 +222,9 @@ public class Assets implements Disposable, AssetErrorListener {
 		 */
 		public AssetFonts() {
 			// create three fonts using Libgdx's 15px bitmap font
-			defaultSmall = new BitmapFont(Gdx.files.internal("images/arial-15.fnt"), true);
-			defaultNormal = new BitmapFont(Gdx.files.internal("images/arial-15.fnt"), true);
-			defaultBig = new BitmapFont(Gdx.files.internal("images/arial-15.fnt"), true);
+			defaultSmall = new BitmapFont(Gdx.files.internal("images/Text.fnt"), true);
+			defaultNormal = new BitmapFont(Gdx.files.internal("images/Text.fnt"), true);
+			defaultBig = new BitmapFont(Gdx.files.internal("images/Text.fnt"), true);
 
 			// set font sizes
 			defaultSmall.getData().setScale(0.75f);

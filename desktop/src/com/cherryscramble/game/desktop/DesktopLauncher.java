@@ -13,7 +13,7 @@ import com.cherryscramble.g1.CherryScrambleMain;
 
 public class DesktopLauncher {
 	
-	private static boolean rebuildAtlas = true;		// Boolean of atlas rebuild
+	private static boolean rebuildAtlas = false;		// Boolean of atlas rebuild
 	private static boolean drawDebugOutline = false;	// Boolean for draw debug
 	
 	public static void main (String[] arg) {	
@@ -42,6 +42,7 @@ public class DesktopLauncher {
 			// Process the textures and merge it into a texture atlas
 			TexturePacker.process(settings, "assets-raw/images", "../core/assets/images", "cherryscramble.atlas");
 		}
+		System.out.println("========== Terminal Debug ==========");
 		new LwjglApplication(new CherryScrambleMain(), config); //Create application
 	}
 }

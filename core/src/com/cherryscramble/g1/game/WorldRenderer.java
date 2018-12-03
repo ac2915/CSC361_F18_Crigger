@@ -9,6 +9,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.Disposable;
 import com.cherryscramble.g1.game.WorldController;
 import com.cherryscramble.g1.objects.GuiBackground;
@@ -24,6 +25,10 @@ public class WorldRenderer implements Disposable
 	
 	//gui background
 	public GuiBackground gui;
+	
+	// Box2D Debug (false when not needed)
+	private static final boolean DEBUG_DRAW_BOX2D_WORLD = true;
+	private Box2DDebugRenderer b2debugRenderer;
 	
 	/**
 	 * Creates a render of the world
@@ -50,6 +55,9 @@ public class WorldRenderer implements Disposable
 		cameraGUI.setToOrtho(true); // flip the y-axis
 		cameraGUI.position.set(cameraGUI.viewportWidth / 2, cameraGUI.viewportHeight / 2, 0);
 		cameraGUI.update();
+		
+		//Box2D Debug
+		b2debugRenderer = new Box2DDebugRenderer();
 	}
 	
 	/**
@@ -63,6 +71,12 @@ public class WorldRenderer implements Disposable
 		batch.begin();
 		worldController.level.render(batch);
 		batch.end();
+		
+		//Box2D Debug
+		if (DEBUG_DRAW_BOX2D_WORLD) {
+			 b2debugRenderer.render(worldController.b2world,
+			 camera.combined);
+		}
 	}
 	
 	/**
@@ -72,9 +86,13 @@ public class WorldRenderer implements Disposable
 	private void renderGui(SpriteBatch batch) {
 		batch.setProjectionMatrix(cameraGUI.combined);
 		batch.begin();
+		// First, draw the gui background image
 	    renderGuiBackground(batch);
-		//renderGuiScore(batch);
-		// draw FPS text (anchored to bottom right edge)
+	    // Draws the score
+		renderScore(batch);
+		// Draws the time remaining
+		renderTimeRemaining(batch);
+		// Draws the game's current fps
 		renderGuiFpsCounter(batch);
 		// draw the game start text
 		
@@ -138,6 +156,20 @@ public class WorldRenderer implements Disposable
 		}
 		fpsFont.draw(batch, "FPS: " + fps, x, y);
 		fpsFont.setColor(1, 1, 1, 1); // white
+	}
+	
+	/**
+	 * Method draws the player's current score in the upper left corner of the gui panel
+	 */
+	private void renderScore(SpriteBatch batch) {
+		Assets.instance.fonts.defaultNormal.draw(batch, "Score: " + worldController.score, 15, 10);
+	}
+	
+	/**
+	 * Method draws the player's remaining time in the upper middle part of the gui panel
+	 */
+	private void renderTimeRemaining(SpriteBatch batch) {
+		Assets.instance.fonts.defaultNormal.draw(batch, "Time Left: " + worldController.time, 350, 10);
 	}
 	
 	/**
