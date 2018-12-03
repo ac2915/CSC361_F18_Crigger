@@ -31,6 +31,10 @@ public class Stump extends AbstractGameObject {
 		regMiddle = Assets.instance.stump.middle;
 		//Start length of this stump
 		setLength(1);
+		
+		// Set bounding box for collision detection
+		bounds.set(0, 0, dimension.x, dimension.y);
+		origin.set(dimension.x / 2, dimension.y / 2);
 	}
 	
 	/**
@@ -39,6 +43,8 @@ public class Stump extends AbstractGameObject {
 	 */
 	public void setLength (int length) {
 		this.length = length;
+		
+		bounds.set(-1.0f, 0, dimension.x * (length+2), dimension.y);
 	}
 		
 	/**

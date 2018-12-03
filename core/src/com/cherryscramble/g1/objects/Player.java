@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.cherryscramble.g1.game.Assets;
 
@@ -56,7 +57,7 @@ public class Player extends AbstractGameObject implements ContactListener {
 		regPlayer = Assets.instance.player.playerTexture;
 		
 		// Center image on player object
-		origin.set(dimension.x / 2, dimension.y / 2);
+		origin.set(dimension.x, dimension.y);
 		
 		bounds.set(0, 0, dimension.x, dimension.y);
 		
@@ -162,7 +163,10 @@ public class Player extends AbstractGameObject implements ContactListener {
 
 	@Override
 	public void beginContact(Contact contact) {
-		// TODO Auto-generated method stub
+		Fixture obja = contact.getFixtureA();
+		Fixture objb = contact.getFixtureB();
+		
+		System.out.println(objb.getBody().getPosition().y - obja.getBody().getPosition().y);
 		
 	}
 

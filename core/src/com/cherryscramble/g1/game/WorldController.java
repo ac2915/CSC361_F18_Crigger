@@ -17,6 +17,9 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.cherryscramble.g1.objects.Ground;
+import com.cherryscramble.g1.objects.Stump;
+import com.cherryscramble.g1.objects.WoodPlatform;
 import com.cherryscramble.g1.util.CameraHelper;
 import com.cherryscramble.g1.util.Constants;
 
@@ -173,9 +176,66 @@ public class WorldController extends InputAdapter {
 		if (b2world != null) b2world.dispose();
 		b2world = new World(new Vector2(0, -1f), true); //World Gravity
 		
-		System.out.println("Box2D Debug!");
+		System.out.println("Box2D Debug!");	// Debug Message
 		
 		Vector2 origin = new Vector2();
+		
+		// Ground Physics
+		for (Ground ground : level.grounds) {
+			BodyDef grounds = new BodyDef();
+			grounds.type = BodyType.StaticBody;
+			grounds.position.set(ground.position);
+			Body body2 = b2world.createBody(grounds);
+			ground.body = body2;
+			PolygonShape polygonShape2 = new PolygonShape();
+			origin.x = ground.bounds.width / 2f; // 1.0f;
+			origin.y = ground.bounds.height / 2f; // 1.0f;
+			polygonShape2.setAsBox(ground.bounds.width / 2f, ground.bounds.height / 2f, origin, 0);
+			FixtureDef fixtureDef2 = new FixtureDef();
+			fixtureDef2.shape = polygonShape2;
+			body2.createFixture(fixtureDef2);
+			polygonShape2.dispose();
+		}
+		
+		System.out.println("Ground added to box 2d!");
+		
+		// Platform Physics
+		for (WoodPlatform platform : level.platforms) {
+			BodyDef plat = new BodyDef();
+			plat.type = BodyType.StaticBody;
+			plat.position.set(platform.position);
+			Body body2 = b2world.createBody(plat);
+			platform.body = body2;
+			PolygonShape polygonShape2 = new PolygonShape();
+			origin.x = (platform.bounds.width / 2.0f) - 1.0f; // 1.0f;
+			origin.y = platform.bounds.height / 2.0f; // 1.0f;
+			polygonShape2.setAsBox(platform.bounds.width / 2.0f, platform.bounds.height / 2.0f, origin, 0);
+			FixtureDef fixtureDef2 = new FixtureDef();
+			fixtureDef2.shape = polygonShape2;
+			body2.createFixture(fixtureDef2);
+			polygonShape2.dispose();
+		}
+		
+		System.out.println("Platforms added!");
+		
+		// Stump Physics
+		for (Stump stump : level.stumps) {
+			BodyDef stum = new BodyDef();
+			stum.type = BodyType.StaticBody;
+			stum.position.set(stump.position);
+			Body body2 = b2world.createBody(stum);
+			stump.body = body2;
+			PolygonShape polygonShape2 = new PolygonShape();
+			origin.x = (stump.bounds.width / 2.0f) - 1.0f; // 1.0f;
+			origin.y = stump.bounds.height / 2.0f; // 1.0f;
+			polygonShape2.setAsBox(stump.bounds.width / 2.0f, stump.bounds.height / 2.0f, origin, 0);
+			FixtureDef fixtureDef2 = new FixtureDef();
+			fixtureDef2.shape = polygonShape2;
+			body2.createFixture(fixtureDef2);
+			polygonShape2.dispose();
+		}
+				
+		System.out.println("Stumps added!");
 		
 		// Player Physics
 		BodyDef player = new BodyDef();
@@ -184,15 +244,15 @@ public class WorldController extends InputAdapter {
 		Body body = b2world.createBody(player);
 		level.player.body = body;
 		PolygonShape polygonShape = new PolygonShape();
-		origin.x = level.player.bounds.width;
-		origin.y = level.player.bounds.height;
-		polygonShape.setAsBox(level.player.bounds.width / 1.0f, level.player.bounds.height / 1.0f, origin, 0);
+		origin.x = level.player.bounds.width / 2f;
+		origin.y = level.player.bounds.height / 2f;
+		polygonShape.setAsBox(level.player.bounds.width / 2.0f, level.player.bounds.height / 2.0f, origin, 0);
 		FixtureDef fixtureDef = new FixtureDef();
 		fixtureDef.shape = polygonShape;
 		body.createFixture(fixtureDef);
 		polygonShape.dispose();
-		
-		System.out.println("Player added to box 2d!");
+				
+		System.out.println("Player added to box 2d!"); // Debug Message
 		
 		//cherry
 		//fixtureDef.isSensor = true;

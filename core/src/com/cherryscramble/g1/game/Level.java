@@ -111,10 +111,15 @@ public class Level {
 				
 				//Ground
 				else if (BLOCK_TYPE.GROUND.sameColor(currentPixel)) {
-					obj = new Ground();
-					offsetHeight = -2.0f;
-					obj.position.set(pixelX,baseHeight * obj.dimension.y + offsetHeight);
-					grounds.add((Ground)obj);
+					if (lastPixel != currentPixel) {
+						obj = new Ground();
+						offsetHeight = -2.0f;
+						obj.position.set(pixelX,baseHeight * obj.dimension.y + offsetHeight);
+						grounds.add((Ground)obj);
+					} 
+					else {
+						grounds.get(grounds.size - 1).increaseLength(1);
+					}
 				}
 				
 				//TrunkWall Left
