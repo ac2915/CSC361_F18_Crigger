@@ -9,6 +9,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.Disposable;
 import com.cherryscramble.g1.game.WorldController;
 import com.cherryscramble.g1.objects.GuiBackground;
@@ -24,6 +25,10 @@ public class WorldRenderer implements Disposable
 	
 	//gui background
 	public GuiBackground gui;
+	
+	// Box2D Debug (false when not needed)
+	private static final boolean DEBUG_DRAW_BOX2D_WORLD = true;
+	private Box2DDebugRenderer b2debugRenderer;
 	
 	/**
 	 * Creates a render of the world
@@ -50,6 +55,9 @@ public class WorldRenderer implements Disposable
 		cameraGUI.setToOrtho(true); // flip the y-axis
 		cameraGUI.position.set(cameraGUI.viewportWidth / 2, cameraGUI.viewportHeight / 2, 0);
 		cameraGUI.update();
+		
+		//Box2D Debug
+		b2debugRenderer = new Box2DDebugRenderer();
 	}
 	
 	/**
@@ -63,6 +71,12 @@ public class WorldRenderer implements Disposable
 		batch.begin();
 		worldController.level.render(batch);
 		batch.end();
+		
+		//Box2D Debug
+		if (DEBUG_DRAW_BOX2D_WORLD) {
+			 b2debugRenderer.render(worldController.b2world,
+			 camera.combined);
+		}
 	}
 	
 	/**
