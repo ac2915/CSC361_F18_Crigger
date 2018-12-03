@@ -19,6 +19,8 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.cherryscramble.g1.objects.Ground;
 import com.cherryscramble.g1.objects.Stump;
+import com.cherryscramble.g1.objects.TrunkWallLeft;
+import com.cherryscramble.g1.objects.TrunkWallRight;
 import com.cherryscramble.g1.objects.WoodPlatform;
 import com.cherryscramble.g1.util.CameraHelper;
 import com.cherryscramble.g1.util.Constants;
@@ -197,7 +199,7 @@ public class WorldController extends InputAdapter {
 			polygonShape2.dispose();
 		}
 		
-		System.out.println("Ground added to box 2d!");
+		System.out.println("Ground added!");
 		
 		// Platform Physics
 		for (WoodPlatform platform : level.platforms) {
@@ -236,6 +238,44 @@ public class WorldController extends InputAdapter {
 		}
 				
 		System.out.println("Stumps added!");
+		
+		// LeftWall Physics
+		for (TrunkWallLeft lw : level.leftTrunkWalls) {
+			BodyDef stum = new BodyDef();
+			stum.type = BodyType.StaticBody;
+			stum.position.set(lw.position);
+			Body body2 = b2world.createBody(stum);
+			lw.body = body2;
+			PolygonShape polygonShape2 = new PolygonShape();
+			origin.x = (lw.bounds.width / 2.0f); // 1.0f;
+			origin.y = lw.bounds.height / 2.0f; // 1.0f;
+			polygonShape2.setAsBox(lw.bounds.width / 2.0f, lw.bounds.height / 2.0f, origin, 0);
+			FixtureDef fixtureDef2 = new FixtureDef();
+			fixtureDef2.shape = polygonShape2;
+			body2.createFixture(fixtureDef2);
+			polygonShape2.dispose();
+		}
+						
+		System.out.println("Left Tree Walls added!");
+		
+		// RightWall Physics
+		for (TrunkWallRight rw : level.rightTrunkWalls) {
+			BodyDef stum = new BodyDef();
+			stum.type = BodyType.StaticBody;
+			stum.position.set(rw.position);
+			Body body2 = b2world.createBody(stum);
+			rw.body = body2;
+			PolygonShape polygonShape2 = new PolygonShape();
+			origin.x = (rw.bounds.width / 2.0f); // 1.0f;
+			origin.y = rw.bounds.height / 2.0f; // 1.0f;
+			polygonShape2.setAsBox(rw.bounds.width / 2.0f, rw.bounds.height / 2.0f, origin, 0);
+			FixtureDef fixtureDef2 = new FixtureDef();
+			fixtureDef2.shape = polygonShape2;
+			body2.createFixture(fixtureDef2);
+			polygonShape2.dispose();
+		}
+								
+		System.out.println("Right Tree Walls added!");
 		
 		// Player Physics
 		BodyDef player = new BodyDef();
