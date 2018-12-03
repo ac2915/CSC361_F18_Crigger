@@ -147,11 +147,9 @@ public class WorldController extends InputAdapter {
 	{
 		// Player Left/Right Movement
 		if (Gdx.input.isKeyPressed(Keys.LEFT)) {
-			level.player.body.setLinearVelocity(-1, level.player.body.getLinearVelocity().y);
-			//level.player.velocity.x = -level.player.terminalVelocity.x;
+			level.player.body.setLinearVelocity(-3, level.player.body.getLinearVelocity().y);
 		} else if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
-			level.player.body.setLinearVelocity(1, level.player.body.getLinearVelocity().y);
-			//level.player.velocity.x = level.player.terminalVelocity.x;
+			level.player.body.setLinearVelocity(3, level.player.body.getLinearVelocity().y);
 		}
 	}
 	
@@ -176,7 +174,7 @@ public class WorldController extends InputAdapter {
 	 */
 	private void initPhysics () {
 		if (b2world != null) b2world.dispose();
-		b2world = new World(new Vector2(0, -1f), true); //World Gravity
+		b2world = new World(new Vector2(0, -9.18f), true); //World Gravity
 		
 		System.out.println("Box2D Debug!");	// Debug Message
 		
