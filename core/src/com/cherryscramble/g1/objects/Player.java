@@ -8,9 +8,13 @@ import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.ContactImpulse;
+import com.badlogic.gdx.physics.box2d.ContactListener;
+import com.badlogic.gdx.physics.box2d.Manifold;
 import com.cherryscramble.g1.game.Assets;
 
-public class Player extends AbstractGameObject {
+public class Player extends AbstractGameObject implements ContactListener {
 	public static final String TAG = Player.class.getName();
 	//public ParticleEffect dustParticles = new ParticleEffect();  Particle Effects for another milestone
 	private final float JUMP_TIME_MAX = 0.3f;	// The longest amount of time the player can jump
@@ -54,8 +58,14 @@ public class Player extends AbstractGameObject {
 		// Center image on player object
 		origin.set(dimension.x / 2, dimension.y / 2);
 		
+		bounds.set(0, 0, dimension.x, dimension.y);
+		
 		// Player initially looks right at the start
 		viewDirection = VIEW_DIRECTION.RIGHT;
+		
+		// Player Jump State
+		jumpState = JUMP_STATE.FALLING;
+		timeJumping = 0;
 	}
 	
 	public void setJumping(boolean jumpKeyPressed) {
@@ -96,7 +106,7 @@ public class Player extends AbstractGameObject {
 	}
 	
 	/**
-	 * Override the update Motion in the Y direction, becuase the player has the
+	 * Override the update Motion in the Y direction, because the player has the
 	 * ability to jump which could change the motion of it compared to another game
 	 * object
 	 */
@@ -105,7 +115,7 @@ public class Player extends AbstractGameObject {
 		switch (jumpState) {
 		case GROUNDED:
 			jumpState = JUMP_STATE.FALLING;
-			// Only draw the dust if the bunny head is on the ground
+			// Only draw the dust if the player is on the ground
 			//if (velocity.x != 0) {
 				//dustParticles.setPosition(position.x + dimension.x / 2, position.y);
 				//dustParticles.start();
@@ -148,6 +158,30 @@ public class Player extends AbstractGameObject {
 		// TEMPORARY DRAW BELOW
 		batch.draw(reg.getTexture(), position.x, position.y, origin.x, origin.y, dimension.x, dimension.y, scale.x, scale.y,
 				rotation, reg.getRegionX(), reg.getRegionY(), reg.getRegionWidth(), reg.getRegionHeight(), false, false);
+	}
+
+	@Override
+	public void beginContact(Contact contact) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void endContact(Contact contact) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void preSolve(Contact contact, Manifold oldManifold) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void postSolve(Contact contact, ContactImpulse impulse) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

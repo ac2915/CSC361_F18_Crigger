@@ -28,17 +28,25 @@ public abstract class AbstractGameObject {
 	//Box2D Body for physics
 	public Body body;
 	
-	//public Rectangle bounds; // bounding box of object for collision
+	public Rectangle bounds; // bounding box of object for collision
 	
 	/**
 	 * Constructor for game objects.
 	 */
 	public AbstractGameObject() {
+		//Image Property initialization
 		position = new Vector2();
 		dimension = new Vector2(1, 1);
 		origin = new Vector2();
 		scale = new Vector2(1, 1);
 		rotation = 0;
+		
+		//Box2D Physics Property initialization
+		velocity = new Vector2();
+		terminalVelocity = new Vector2(1, 1);
+		friction = new Vector2();
+		acceleration = new Vector2();
+		bounds = new Rectangle();
 	}
 
 	/**
