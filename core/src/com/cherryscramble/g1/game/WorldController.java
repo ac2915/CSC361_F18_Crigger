@@ -6,6 +6,7 @@
 
 package com.cherryscramble.g1.game;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Application.ApplicationType;
@@ -15,6 +16,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.cherryscramble.g1.objects.Ground;
@@ -25,14 +27,17 @@ import com.cherryscramble.g1.objects.WoodPlatform;
 import com.cherryscramble.g1.util.CameraHelper;
 import com.cherryscramble.g1.util.Constants;
 
-public class WorldController extends InputAdapter {
+public class WorldController extends InputAdapter implements Disposable {
 	private static final String TAG = WorldController.class.getName();
 	
 	public Level level;
 	
+	// Instance of the game
+	private Game game;
+	
 	//GUI Vars
 	public int score;
-	public int time;
+	public float time;
 	
 	//Box2D Physics
 	public World b2world;
@@ -43,7 +48,8 @@ public class WorldController extends InputAdapter {
 	/**
 	 * Initialize upon being called
 	 */
-	public WorldController() {
+	public WorldController(Game game) {
+		this.game = game;
 		init();
 	}
 	
@@ -83,9 +89,19 @@ public class WorldController extends InputAdapter {
 		} else {
 			handleInput(deltaTime);
 		}
-		
 		level.update(deltaTime); 		// Update level objects
 		b2world.step(deltaTime, 8, 3);	// Box2d Physics Update
+		
+		// Timer Count-Down
+		if(time > 0)
+		{
+			time -= deltaTime;
+			if(time < 0)
+			{
+				time = 0;
+				//Game Over!
+			}
+		}
 	}
 	
 	/**
@@ -294,5 +310,14 @@ public class WorldController extends InputAdapter {
 		
 		//cherry
 		//fixtureDef.isSensor = true;
+	}
+	
+	/**
+	 * Method to remove the world controller.
+	 */
+	@Override
+	public void dispose() {
+		if (b2world != null)
+			b2world.dispose();	// Disposes of box2D.
 	}
 }
