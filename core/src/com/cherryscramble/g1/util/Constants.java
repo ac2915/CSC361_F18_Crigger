@@ -15,13 +15,20 @@ public class Constants {
 
 	// Location of description file for texture atlas
 	public static final String TEXTURE_ATLAS_OBJECTS = "images/cherryscramble.atlas";
+	
+	// Location of description file for ui texture atlas
+	public static final String TEXTURE_ATLAS_UI = "images-ui/cherryscrambleui.atlas";
+	public static final String SKIN_UI = "images-ui/cherryscrambleui.json";
 
 	// Location of image file for level 01
 	public static final String LEVEL_01 = "levels/level-01.png";
 	
 	// GUI Width
-	public static final float VIEWPORT_GUI_WIDTH = 1.0f; //800.0f;
+	public static final float VIEWPORT_GUI_WIDTH = 800.0f; //800.0f;
 		
 	// GUI Height
-	public static final float VIEWPORT_GUI_HEIGHT = 1.0f; //576.0f;
+	public static final float VIEWPORT_GUI_HEIGHT = 576.0f; //576.0f;
+	
+	// Game Preferences
+	public static final String PREFERENCES = "cherryscramble.prefs";
 }
