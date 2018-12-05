@@ -25,7 +25,7 @@ public abstract class AbstractGameScreen implements Screen {
 	public abstract void show();
 
 	@Override
-	public abstract void render(float delta);
+	public abstract void render(float deltaTime);
 
 	@Override
 	public abstract void resize(int width, int height);
