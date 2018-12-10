@@ -18,7 +18,10 @@ public class Constants {
 	
 	// Location of description file for ui texture atlas
 	public static final String TEXTURE_ATLAS_UI = "images-ui/cherryscrambleui.atlas";
+	public static final String TEXTURE_ATLAS_LIBGDX_UI = "images/uiskin.atlas";
+	// Skin Location
 	public static final String SKIN_UI = "images-ui/cherryscrambleui.json";
+	public static final String SKIN_LIBGDX_UI = "images/uiskin.json";
 
 	// Location of image file for level 01
 	public static final String LEVEL_01 = "levels/level-01.png";
