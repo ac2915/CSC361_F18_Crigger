@@ -124,16 +124,26 @@ public class Level {
 				
 				//TrunkWall Left
 				else if (BLOCK_TYPE.TRUNKWALL_LEFT.sameColor(currentPixel)) {
-					obj = new TrunkWallLeft();
-					obj.position.set(pixelX,baseHeight * obj.dimension.y + offsetHeight);
-					leftTrunkWalls.add((TrunkWallLeft)obj);
+					if (lastPixel != currentPixel) {
+						obj = new TrunkWallLeft();
+						obj.position.set(pixelX,baseHeight * obj.dimension.y + offsetHeight);
+						leftTrunkWalls.add((TrunkWallLeft)obj);
+					} 
+					else {
+						leftTrunkWalls.get(leftTrunkWalls.size - 1).increaseLength(1);
+					}
 				}
 				
 				//TrunkWall Right
 				else if (BLOCK_TYPE.TRUNKWALL_RIGHT.sameColor(currentPixel)) {
-					obj = new TrunkWallRight();
-					obj.position.set(pixelX,baseHeight * obj.dimension.y + offsetHeight);
-					rightTrunkWalls.add((TrunkWallRight)obj);
+					if (lastPixel != currentPixel) {
+						obj = new TrunkWallRight();
+						obj.position.set(pixelX,baseHeight * obj.dimension.y + offsetHeight);
+						rightTrunkWalls.add((TrunkWallRight)obj);
+					} 
+					else {
+						rightTrunkWalls.get(rightTrunkWalls.size - 1).increaseLength(1);
+					}
 				}
 				
 				//Wooden Platform
