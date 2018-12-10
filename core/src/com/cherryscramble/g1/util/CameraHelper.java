@@ -25,7 +25,7 @@ public class CameraHelper {
 	public CameraHelper() {
 		//NOTE: 9,10 is the western most the camera should go.
 		//      23,10 is the eastern most the camera should go.
-		position = new Vector2(23,10);
+		position = new Vector2(19,10);
 		zoom = 1.0f;
 	}
 
