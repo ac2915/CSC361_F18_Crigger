@@ -24,6 +24,7 @@ import com.cherryscramble.g1.objects.Stump;
 import com.cherryscramble.g1.objects.TrunkWallLeft;
 import com.cherryscramble.g1.objects.TrunkWallRight;
 import com.cherryscramble.g1.objects.WoodPlatform;
+import com.cherryscramble.g1.util.AudioManager;
 import com.cherryscramble.g1.util.CameraHelper;
 import com.cherryscramble.g1.util.Constants;
 
@@ -38,6 +39,7 @@ public class WorldController extends InputAdapter implements Disposable {
 	//GUI Vars
 	public int score;
 	public float time;
+	int pause = 0;
 	
 	//Box2D Physics
 	public World b2world;
@@ -166,7 +168,7 @@ public class WorldController extends InputAdapter implements Disposable {
 			level.player.body.setLinearVelocity(-3, level.player.body.getLinearVelocity().y);
 		} else if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
 			level.player.body.setLinearVelocity(3, level.player.body.getLinearVelocity().y);
-		}
+		} 
 	}
 	
 	/**
@@ -179,6 +181,17 @@ public class WorldController extends InputAdapter implements Disposable {
 		}
 		else if (keycode == Keys.RIGHT) {
 			level.player.body.setLinearVelocity(0, level.player.body.getLinearVelocity().y);
+		} else if (keycode == Keys.ESCAPE) {
+			if(pause == 0)
+			{
+				game.pause();
+				pause = 1;
+			}
+			else
+			{
+				game.resume();
+				pause = 0;
+			}
 		}
 		return false;
 	}

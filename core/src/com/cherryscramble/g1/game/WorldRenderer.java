@@ -169,7 +169,7 @@ public class WorldRenderer implements Disposable
 	 * Method draws the player's remaining time in the upper middle part of the gui panel
 	 */
 	private void renderTimeRemaining(SpriteBatch batch) {
-		Assets.instance.fonts.defaultNormal.draw(batch, "Time Left: " + worldController.time, 350, 10);
+		Assets.instance.fonts.defaultNormal.draw(batch, "Time Left: " + (int)worldController.time, 350, 10);
 	}
 	
 	/**

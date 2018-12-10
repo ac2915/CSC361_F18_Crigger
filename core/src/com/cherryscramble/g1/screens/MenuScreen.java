@@ -19,7 +19,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
+import com.cherryscramble.g1.util.AudioManager;
 import com.cherryscramble.g1.util.Constants;
+import com.cherryscramble.g1.util.GamePreferences;
 
 public class MenuScreen extends AbstractGameScreen{
 
@@ -37,10 +39,11 @@ public class MenuScreen extends AbstractGameScreen{
 	private Button winSave;			// Save Button
 	private Button winCancel;		// Cancel Button
 	
-	private CheckBox chkSound;		// Disable Sound Checkbox
-	private Slider sldSound;		// Sound Effect Slider
-	private CheckBox chkMusic;		// Disable Music Checkbox
-	private Slider sldMusic;		// Music Slider.
+	private CheckBox chkSound;			// Disable Sound Checkbox
+	private Slider sldSound;			// Sound Effect Slider
+	private CheckBox chkMusic;			// Disable Music Checkbox
+	private Slider sldMusic;			// Music Slider.
+	private CheckBox chkShowFPSCounter;	// Disable FPS counter
 	
 	public MenuScreen(Game game) {
 		super(game);
@@ -95,6 +98,7 @@ public class MenuScreen extends AbstractGameScreen{
 	
 	private Table buildButtonLayer() {
 		Table layer = new Table();
+		
 		// Button Positioning
 		layer.bottom().left();
 		layer.padLeft(115);
@@ -113,11 +117,11 @@ public class MenuScreen extends AbstractGameScreen{
 		
 		layer.row();
 		
-		// Play button
-		btnPlay = new Button(skinCherryScramble, "options");
-		btnPlay.setPosition(150, 20);
-		layer.add(btnPlay).pad(20);
-		btnPlay.addListener(new ChangeListener() {
+		// Options button
+		btnOptions = new Button(skinCherryScramble, "options");
+		btnOptions.setPosition(150, 20);
+		layer.add(btnOptions).pad(20);
+		btnOptions.addListener(new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
 				onOptionsClicked();
@@ -129,15 +133,40 @@ public class MenuScreen extends AbstractGameScreen{
 	
 	// Event for when the play button is clicked
 	private void onPlayClicked() {
+		AudioManager.instance.stopMusic();
 		game.setScreen(new GameScreen(game));
 	}
 	
 	// Event for when the options button is clicked
 	private void onOptionsClicked() {
-		//loadSettings();
-		//btnPlay.setVisible(false);
-		//btnOptions.setVisible(false);
+		loadSettings();
 		winOptions.setVisible(true);
+	}
+	
+	/**
+	 * Method loads in the users personal preferences
+	 */
+	private void loadSettings() {
+		GamePreferences prefs = GamePreferences.instance;
+		prefs.load();
+		chkSound.setChecked(prefs.sound);
+		sldSound.setValue(prefs.volSound);
+		chkMusic.setChecked(prefs.music);
+		sldMusic.setValue(prefs.volMusic);
+		chkShowFPSCounter.setChecked(prefs.showFpsCounter);
+	}
+	
+	/**
+	 * Method Saves the user personal preferences
+	 */
+	private void saveSettings() {
+		GamePreferences prefs = GamePreferences.instance;
+		prefs.sound = chkSound.isChecked();
+		prefs.volSound = sldSound.getValue();
+		prefs.music = chkMusic.isChecked();
+		prefs.volMusic = sldMusic.getValue();
+		prefs.showFpsCounter = chkShowFPSCounter.isChecked();
+		prefs.save();
 	}
 	
 	/**
@@ -192,6 +221,12 @@ public class MenuScreen extends AbstractGameScreen{
 		sldMusic = new Slider(0.0f, 1.0f, 0.1f, false, skinLibgdx);
 		tbl.add(sldMusic);
 		tbl.row();
+		
+		// Checkbox, "Show FPS Counter" label
+		chkShowFPSCounter = new CheckBox("", skinLibgdx);
+		tbl.add(new Label("Show FPS Counter", skinLibgdx));
+		tbl.add(chkShowFPSCounter);
+		tbl.row();
 				
 		return tbl;
 	}
@@ -226,14 +261,21 @@ public class MenuScreen extends AbstractGameScreen{
 		return tbl;
 	}
 	
+	/**
+	 * Event handler for when save is clicked
+	 */
 	public void onSaveClicked() {
-		
+		saveSettings();
+		onCancelClicked();
+		AudioManager.instance.onSettingsUpdated();
 	}
 	
+	/**
+	 * Event handler for when cancel is clicked
+	 */
 	public void onCancelClicked() {
 		winOptions.setVisible(false);
-		// chapter 10 below
-		//AudioManager.instance.onSettingsUpdated();
+		AudioManager.instance.onSettingsUpdated();
 	}
 
 	
@@ -258,22 +300,30 @@ public class MenuScreen extends AbstractGameScreen{
 		stage.setDebugAll(false);
 	}
 
+	/**
+	 * Resizing properties
+	 */
 	@Override
 	public void resize(int width, int height) {
-		// TODO Auto-generated method stub
-		
+		stage.getViewport();
 	}
 
+	/**
+	 * What happens when the game is paused
+	 */
 	@Override
 	public void pause() {
-		// TODO Auto-generated method stub
-		
+
 	}
 
+	/**
+	 * Hides the screen
+	 */
 	@Override
 	public void hide() {
-		// TODO Auto-generated method stub
-		
+		stage.dispose();
+		skinCherryScramble.dispose();
+		skinLibgdx.dispose();
 	}
 
 }
