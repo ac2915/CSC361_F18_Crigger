@@ -28,7 +28,6 @@ private static final String TAG = CherryScrambleMain.class.getName();
 		Assets.instance.init(new AssetManager());
 		
 		GamePreferences.instance.load();							// Load Game Preferences
-		AudioManager.instance.play(Assets.instance.music.titleSong);	// Play Menu Music
 		
 		// Start the game at the menu screen
 		setScreen(new MenuScreen(this));

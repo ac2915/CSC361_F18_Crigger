@@ -44,6 +44,7 @@ public class WorldController extends InputAdapter implements Disposable {
 	public float wait;
 	public float time;
 	int pause = 0;
+	private boolean switchScreen;
 	
 	//Box2D Physics
 	public World b2world;
@@ -68,6 +69,7 @@ public class WorldController extends InputAdapter implements Disposable {
 
 		initLevel(); // Initializes the level
 		b2world.setContactListener(level.player); //Box 2d contact listener
+		switchScreen = false;	// switchScreen Position
 	}
 	
 	/**
@@ -75,7 +77,7 @@ public class WorldController extends InputAdapter implements Disposable {
 	 */
 	private void initLevel() {
 		score = 0;								// Score Starts at zero
-		time = 10;//99;								// Level has a 99 second time limit
+		time = 10; //99;								// Level has a 99 second time limit
 		wait = 5;								// 5 second wait time;
 		level = new Level(Constants.LEVEL_01); 	// Build the level 1 map
 		
@@ -95,9 +97,8 @@ public class WorldController extends InputAdapter implements Disposable {
 			System.out.println("GAME OVER!");
 			if(wait < 0)
 			{
-				dispose();
 				AudioManager.instance.stopMusic();
-				game.setScreen(new HighScoreScreen(game));
+				switchScreen = true;
 			}
 			else
 				wait -= deltaTime;
@@ -115,6 +116,13 @@ public class WorldController extends InputAdapter implements Disposable {
 			{
 				time = 0;
 			}
+		}
+		
+		// Possible box2d fix
+		if (switchScreen == true)
+		{
+			b2world = null;
+			game.setScreen(new HighScoreScreen(game));
 		}
 	}
 	
@@ -247,6 +255,7 @@ public class WorldController extends InputAdapter implements Disposable {
 			FixtureDef fixtureDef2 = new FixtureDef();
 			fixtureDef2.shape = polygonShape2;
 			body2.createFixture(fixtureDef2);
+			body2.setUserData("Ground");	// it's user data
 			polygonShape2.dispose();
 		}
 		
@@ -266,6 +275,7 @@ public class WorldController extends InputAdapter implements Disposable {
 			FixtureDef fixtureDef2 = new FixtureDef();
 			fixtureDef2.shape = polygonShape2;
 			body2.createFixture(fixtureDef2);
+			body2.setUserData("WoodPlatform");	// it's user data
 			polygonShape2.dispose();
 		}
 		
@@ -285,6 +295,7 @@ public class WorldController extends InputAdapter implements Disposable {
 			FixtureDef fixtureDef2 = new FixtureDef();
 			fixtureDef2.shape = polygonShape2;
 			body2.createFixture(fixtureDef2);
+			body2.setUserData("Stump");	// it's user data
 			polygonShape2.dispose();
 		}
 				
@@ -304,6 +315,7 @@ public class WorldController extends InputAdapter implements Disposable {
 			FixtureDef fixtureDef2 = new FixtureDef();
 			fixtureDef2.shape = polygonShape2;
 			body2.createFixture(fixtureDef2);
+			body2.setUserData("Trunk");	// it's user data
 			polygonShape2.dispose();
 		}
 						
@@ -323,6 +335,7 @@ public class WorldController extends InputAdapter implements Disposable {
 			FixtureDef fixtureDef2 = new FixtureDef();
 			fixtureDef2.shape = polygonShape2;
 			body2.createFixture(fixtureDef2);
+			body2.setUserData("RightWall");	// it's user data
 			polygonShape2.dispose();
 		}
 								
@@ -341,6 +354,7 @@ public class WorldController extends InputAdapter implements Disposable {
 		FixtureDef fixtureDef = new FixtureDef();
 		fixtureDef.shape = polygonShape;
 		body.createFixture(fixtureDef);
+		body.setUserData("Player");	// it's user data
 		polygonShape.dispose();
 				
 		System.out.println("Player added to box 2d!"); // Debug Message
