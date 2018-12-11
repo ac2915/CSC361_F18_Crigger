@@ -24,6 +24,9 @@ import com.cherryscramble.g1.objects.Stump;
 import com.cherryscramble.g1.objects.TrunkWallLeft;
 import com.cherryscramble.g1.objects.TrunkWallRight;
 import com.cherryscramble.g1.objects.WoodPlatform;
+import com.cherryscramble.g1.objects.Player.JUMP_STATE;
+import com.cherryscramble.g1.screens.GameScreen;
+import com.cherryscramble.g1.screens.HighScoreScreen;
 import com.cherryscramble.g1.util.AudioManager;
 import com.cherryscramble.g1.util.CameraHelper;
 import com.cherryscramble.g1.util.Constants;
@@ -38,6 +41,7 @@ public class WorldController extends InputAdapter implements Disposable {
 	
 	//GUI Vars
 	public int score;
+	public float wait;
 	public float time;
 	int pause = 0;
 	
@@ -71,7 +75,8 @@ public class WorldController extends InputAdapter implements Disposable {
 	 */
 	private void initLevel() {
 		score = 0;								// Score Starts at zero
-		time = 99;								// Level has a 99 second time limit
+		time = 10;//99;								// Level has a 99 second time limit
+		wait = 5;								// 5 second wait time;
 		level = new Level(Constants.LEVEL_01); 	// Build the level 1 map
 		
 		initPhysics(); //Box2D Physics
@@ -87,7 +92,15 @@ public class WorldController extends InputAdapter implements Disposable {
 		
 		// TimeLeft game over.
 		if (isGameOver()) {
-
+			System.out.println("GAME OVER!");
+			if(wait < 0)
+			{
+				dispose();
+				AudioManager.instance.stopMusic();
+				game.setScreen(new HighScoreScreen(game));
+			}
+			else
+				wait -= deltaTime;
 		} else {
 			handleInput(deltaTime);
 		}
@@ -101,7 +114,6 @@ public class WorldController extends InputAdapter implements Disposable {
 			if(time < 0)
 			{
 				time = 0;
-				//Game Over!
 			}
 		}
 	}
@@ -111,7 +123,7 @@ public class WorldController extends InputAdapter implements Disposable {
 	 * @return
 	 */
 	public boolean isGameOver() {
-		return 1 < 0; // True value to keep the game going for now.
+		return time <= 0; // Game over when time is 0
 	}
 	
 	/***
@@ -169,6 +181,18 @@ public class WorldController extends InputAdapter implements Disposable {
 		} else if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
 			level.player.body.setLinearVelocity(3, level.player.body.getLinearVelocity().y);
 		} 
+		
+		// Player Jumping ability
+		if (Gdx.input.isKeyJustPressed(Keys.UP) || Gdx.input.isKeyJustPressed(Keys.SPACE)) {
+			//level.player.setJumping(true);
+			if(level.player.jumpState != JUMP_STATE.JUMP_RISING || level.player.jumpState != JUMP_STATE.JUMP_FALLING)
+			{
+				level.player.body.setLinearVelocity(level.player.body.getLinearVelocity().x, 4);
+				//level.player.body.applyForceToCenter(0, 600f, true);
+			}
+		} else {
+			//level.player.setJumping(false);
+		}
 	}
 	
 	/**

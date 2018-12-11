@@ -4,121 +4,128 @@ size: 2048,256
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+Finish
+  rotate: false
+  xy: 2, 36
+  size: 162, 36
+  orig: 162, 36
+  offset: 0, 0
+  index: -1
 GoldCherry
   rotate: false
-  xy: 964, 100
+  xy: 1028, 170
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 GreenCherry
   rotate: false
-  xy: 1028, 164
+  xy: 1830, 204
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 Ground
   rotate: false
-  xy: 2, 2
+  xy: 964, 74
   size: 32, 64
   orig: 32, 64
   offset: 0, 0
   index: -1
 GuiB
   rotate: false
-  xy: 1028, 198
+  xy: 1028, 204
   size: 800, 32
   orig: 800, 32
   offset: 0, 0
   index: -1
 PlatformLeft
   rotate: false
-  xy: 1830, 198
+  xy: 2, 2
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 PlatformMiddle
   rotate: false
-  xy: 36, 34
+  xy: 166, 40
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 PlatformRight
   rotate: false
-  xy: 1062, 164
+  xy: 1062, 170
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 Player
   rotate: false
-  xy: 1864, 198
+  xy: 1864, 204
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 PurpleCherry
   rotate: false
-  xy: 70, 34
+  xy: 36, 2
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 RedCherry
   rotate: false
-  xy: 1096, 164
+  xy: 200, 40
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 Shrub
   rotate: false
-  xy: 2, 68
+  xy: 2, 74
   size: 960, 64
   orig: 960, 64
   offset: 0, 0
   index: -1
 StumpLeft
   rotate: false
-  xy: 1932, 198
+  xy: 234, 40
   size: 31, 32
   orig: 31, 32
   offset: 0, 0
   index: -1
 StumpMiddle
   rotate: false
-  xy: 1898, 198
+  xy: 1096, 170
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 StumpRight
   rotate: false
-  xy: 138, 34
+  xy: 1130, 170
   size: 31, 32
   orig: 31, 32
   offset: 0, 0
   index: -1
 TreeTops
   rotate: false
-  xy: 2, 134
+  xy: 2, 140
   size: 1024, 96
   orig: 1024, 96
   offset: 0, 0
   index: -1
 TrunkWallLeft
   rotate: false
-  xy: 104, 34
+  xy: 1898, 204
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 TrunkWallRight
   rotate: false
-  xy: 1130, 164
+  xy: 70, 2
   size: 32, 32
   orig: 32, 32
   offset: 0, 0

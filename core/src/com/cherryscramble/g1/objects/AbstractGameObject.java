@@ -56,11 +56,11 @@ public abstract class AbstractGameObject {
 	public void update(float deltaTime) {
 		// Chapter 11 if statement
 		if (body == null) {
-			updateMotionX(deltaTime);
-			updateMotionY(deltaTime);
+			//updateMotionX(deltaTime);
+			//updateMotionY(deltaTime);
 			// Move to new position
-			position.x += velocity.x * deltaTime;
-			position.y += velocity.y * deltaTime;
+			//position.x += velocity.x * deltaTime;
+			//position.y += velocity.y * deltaTime;
 		} else {
 			position.set(body.getPosition());
 			rotation = body.getAngle() * MathUtils.radiansToDegrees;
