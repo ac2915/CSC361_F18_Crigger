@@ -19,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
+import com.cherryscramble.g1.game.Assets;
 import com.cherryscramble.g1.util.AudioManager;
 import com.cherryscramble.g1.util.Constants;
 import com.cherryscramble.g1.util.GamePreferences;
@@ -57,6 +58,7 @@ public class MenuScreen extends AbstractGameScreen{
 	public void show() {
 		stage = new Stage();
 		Gdx.input.setInputProcessor(stage);
+		AudioManager.instance.play(Assets.instance.music.titleSong);	// Play Menu Music
 		rebuildStage();
 	}
 	

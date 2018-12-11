@@ -4,6 +4,7 @@
 
 package com.cherryscramble.g1.objects;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -27,6 +28,9 @@ public class Player extends AbstractGameObject implements ContactListener {
 	public VIEW_DIRECTION viewDirection; 	// Directional state the player is facing
 	public JUMP_STATE jumpState;		 	// Player's jumping state
 	public float timeJumping;				// maximum jump time
+	
+	// Game instance for destroying object
+	private Game game;
 	
 	
 	/**
@@ -81,7 +85,7 @@ public class Player extends AbstractGameObject implements ContactListener {
 					// Start Counting the AirTime.
 					timeJumping = 0;					// Time Starts at 0
 					jumpState = JUMP_STATE.JUMP_RISING;	// Player Jump State becomes rising
-					System.out.println("I jumped!");
+					//System.out.println("I jumped!");
 				}
 				break;
 				
@@ -94,7 +98,7 @@ public class Player extends AbstractGameObject implements ContactListener {
 				
 			case FALLING:	// Falling down
 			case JUMP_FALLING: 	// Falling down after jump
-				System.out.println("I FALL!");
+				//System.out.println("I FALL!");
 				break;
 		}
 	}
@@ -169,7 +173,8 @@ public class Player extends AbstractGameObject implements ContactListener {
 		Fixture obja = contact.getFixtureA();
 		Fixture objb = contact.getFixtureB();
 		
-		System.out.println(objb.getBody().getPosition().y - obja.getBody().getPosition().y);
+		System.out.println("Fixture a: " + contact.getFixtureA().getBody().getUserData());
+		System.out.println("Fixture b: " + contact.getFixtureB().getBody().getUserData());
 		
 	}
 

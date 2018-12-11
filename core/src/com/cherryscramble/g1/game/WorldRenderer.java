@@ -32,7 +32,7 @@ public class WorldRenderer implements Disposable
 	public Finish finish;
 	
 	// Box2D Debug (false when not needed)
-	private static final boolean DEBUG_DRAW_BOX2D_WORLD = true;
+	private static final boolean DEBUG_DRAW_BOX2D_WORLD = false;
 	private Box2DDebugRenderer b2debugRenderer;
 	
 	/**
