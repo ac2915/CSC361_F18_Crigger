@@ -14,6 +14,7 @@ import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.cherryscramble.g1.game.Assets;
+import com.cherryscramble.g1.util.AudioManager;
 
 public class Player extends AbstractGameObject implements ContactListener {
 	public static final String TAG = Player.class.getName();
@@ -72,27 +73,29 @@ public class Player extends AbstractGameObject implements ContactListener {
 	public void setJumping(boolean jumpKeyPressed) {
 		//Player Jump States
 		switch (jumpState) {
-		
-		case GROUNDED: 				// Character is standing on the ground or platform
-			// If the jump key is pressed
-			if (jumpKeyPressed) {
-				//AudioManager.instance.play(Assets.instance.sounds.jump);  Audio for next milestone
+			// Character is on ground or platform
+			case GROUNDED:
+				// If the jump key is pressed
+				if (jumpKeyPressed) {
+					AudioManager.instance.play(Assets.instance.sounds.jump);  // Jumping sound effect
+					// Start Counting the AirTime.
+					timeJumping = 0;					// Time Starts at 0
+					jumpState = JUMP_STATE.JUMP_RISING;	// Player Jump State becomes rising
+					System.out.println("I jumped!");
+				}
+				break;
 				
-				// Start Counting the AirTime.
-				timeJumping = 0;					// Time Starts at 0
-				jumpState = JUMP_STATE.JUMP_RISING;	// Player Jump State becomes rising
-			}
-			break;
-			
-		case JUMP_RISING: 			// Player is rising into the air
-			// If the jump key is not pressed
-			if (!jumpKeyPressed)
-				jumpState = JUMP_STATE.JUMP_FALLING;
-			break;
-			
-		case FALLING:	// Falling down
-		case JUMP_FALLING: 	// Falling down after jump
-			break;
+			// Player is rising in the air
+			case JUMP_RISING:
+				// If the jump key is not pressed
+				if (!jumpKeyPressed)
+					jumpState = JUMP_STATE.JUMP_FALLING;
+				break;
+				
+			case FALLING:	// Falling down
+			case JUMP_FALLING: 	// Falling down after jump
+				System.out.println("I FALL!");
+				break;
 		}
 	}
 	

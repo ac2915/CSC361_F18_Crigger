@@ -142,10 +142,13 @@ public class Assets implements Disposable, AssetErrorListener {
 		public final AtlasRegion treetop;
 		public final AtlasRegion guibackground;
 		
+		public final AtlasRegion guiFinish;
+		
 		public AssetLevelDecoration(TextureAtlas atlas) {
 			shrub = atlas.findRegion("Shrub");
 			treetop = atlas.findRegion("TreeTops");
 			guibackground = atlas.findRegion("GuiB");
+			guiFinish = atlas.findRegion("Finish");
 		}
 	}
 

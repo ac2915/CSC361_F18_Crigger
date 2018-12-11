@@ -1,12 +1,19 @@
 
 cherryscrambleui.png
-size: 1024,1024
+size: 2048,1024
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
 Background
   rotate: false
   xy: 2, 170
+  size: 800, 576
+  orig: 800, 576
+  offset: 0, 0
+  index: -1
+HS_Background
+  rotate: false
+  xy: 804, 170
   size: 800, 576
   orig: 800, 576
   offset: 0, 0
@@ -20,19 +27,33 @@ options-dn
   index: -1
 options-up
   rotate: false
-  xy: 2, 58
+  xy: 1606, 692
   size: 252, 54
   orig: 252, 54
   offset: 0, 0
   index: -1
 play-dn
   rotate: false
-  xy: 256, 114
+  xy: 2, 58
   size: 252, 54
   orig: 252, 54
   offset: 0, 0
   index: -1
 play-up
+  rotate: false
+  xy: 256, 114
+  size: 252, 54
+  orig: 252, 54
+  offset: 0, 0
+  index: -1
+return-dn
+  rotate: false
+  xy: 1606, 636
+  size: 252, 54
+  orig: 252, 54
+  offset: 0, 0
+  index: -1
+return-up
   rotate: false
   xy: 2, 2
   size: 252, 54

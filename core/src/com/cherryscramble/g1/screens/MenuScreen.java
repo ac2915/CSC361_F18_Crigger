@@ -38,6 +38,7 @@ public class MenuScreen extends AbstractGameScreen{
 	private Window winOptions;		// Options Window
 	private Button winSave;			// Save Button
 	private Button winCancel;		// Cancel Button
+	private Button winHighScore;	// See HighScore Button
 	
 	private CheckBox chkSound;			// Disable Sound Checkbox
 	private Slider sldSound;			// Sound Effect Slider
@@ -95,7 +96,10 @@ public class MenuScreen extends AbstractGameScreen{
 		return layer;
 	}
 	
-	
+	/**
+	 * Build the button area on the main menu screen
+	 * @return
+	 */
 	private Table buildButtonLayer() {
 		Table layer = new Table();
 		
@@ -258,11 +262,21 @@ public class MenuScreen extends AbstractGameScreen{
 			}
 		});
 		
+		// High Score Button
+		winHighScore = new TextButton("See High Scores", skinLibgdx);
+		tbl.add(winHighScore);
+		winHighScore.addListener(new ChangeListener() {
+			@Override
+			public void changed(ChangeEvent event, Actor actor) {
+				onScoreClicked();
+			}
+		});
+		
 		return tbl;
 	}
 	
 	/**
-	 * Event handler for when save is clicked
+	 * Event handler for when save button is clicked
 	 */
 	public void onSaveClicked() {
 		saveSettings();
@@ -271,11 +285,18 @@ public class MenuScreen extends AbstractGameScreen{
 	}
 	
 	/**
-	 * Event handler for when cancel is clicked
+	 * Event handler for when cancel button is clicked
 	 */
 	public void onCancelClicked() {
 		winOptions.setVisible(false);
 		AudioManager.instance.onSettingsUpdated();
+	}
+	
+	/**
+	 * Event handler for when the High Score button is clicked
+	 */
+	public void onScoreClicked() {
+		game.setScreen(new HighScoreScreen(game));
 	}
 
 	
