@@ -1,5 +1,11 @@
 package com.cherryscramble.g1.screens;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -82,18 +88,45 @@ public class HighScoreScreen extends AbstractGameScreen{
 		return layer;
 	}
 	
+	/**
+	 * Table holds all of the scores to be displayed
+	 * @return
+	 */
+	@SuppressWarnings("resource")
 	private Table buildScoreLayer() {
 		Table layer = new Table();
-		for(int i = 0; i < 10; i++) {
-			layer.add(new Label("Player " + i, skinLibgdx));			// Player Name
-			layer.add(new Label("                      ", skinLibgdx)); // Buffer because pad isn't working
-			layer.add(new Label("50,000", skinLibgdx));					// Their Score
-			layer.row();
+		int currentScore;
+		
+		try 
+		{
+			BufferedReader LineReader = new BufferedReader(new FileReader("save.dat"));
+			ArrayList<Integer> list  = new ArrayList<Integer>();
+			String CurrentScore;
+			int position = 1;
+			
+			while((CurrentScore = LineReader.readLine()) != null)
+			{
+				System.out.println(Integer.parseInt(CurrentScore));
+				currentScore = Integer.parseInt(CurrentScore);
+				list.add(currentScore);
+				position++;
+			}
+			
+			Collections.sort(list);		// Sort the collection of objects little to big
+			Collections.reverse(list);  // Reverse it for high score.
+			
+			for(int i = 1; i < 11; i++)
+			{
+				CurrentScore = Integer.toString(list.get(i));							// Conver int to string for display
+				layer.add(new Label("Player " + i, skinLibgdx));						// Player Name
+				layer.add(new Label("                                     ", skinLibgdx));  // Buffer because pad isn't working
+				layer.add(new Label(CurrentScore, skinLibgdx));								// Get Score
+				layer.row();
+			}
+			
+		} catch (IOException e) {
+			System.out.println("ERROR: CANNOT READ THE HIGH SCORES");
 		}
-		layer.row();
-		layer.row();
-		layer.row();
-		layer.add(new Label("You're final score: " + finalScore, skinLibgdx));
 		return layer;
 	}
 	
