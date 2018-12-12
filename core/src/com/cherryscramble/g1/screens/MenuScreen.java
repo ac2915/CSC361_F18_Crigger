@@ -298,6 +298,7 @@ public class MenuScreen extends AbstractGameScreen{
 	 * Event handler for when the High Score button is clicked
 	 */
 	public void onScoreClicked() {
+		AudioManager.instance.stopMusic();
 		game.setScreen(new HighScoreScreen(game));
 	}
 

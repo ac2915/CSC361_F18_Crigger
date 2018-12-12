@@ -96,7 +96,10 @@ public class AudioManager {
 	 */
 	public void resume() {
 		if (playingMusic != null) 
-			playingMusic.play();
+		{
+			if (GamePreferences.instance.music)
+				playingMusic.play();
+		}
 	}
 	
 	/**

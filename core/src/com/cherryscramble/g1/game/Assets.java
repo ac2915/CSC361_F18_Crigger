@@ -12,9 +12,11 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.cherryscramble.g1.util.Constants;
 
@@ -35,6 +37,10 @@ public class Assets implements Disposable, AssetErrorListener {
 	public AssetTrunkWallRight trunkWallRight;	// TrunkWallRight Asset
 	public AssetWoodenPlatform woodplatform;    // Wooden Platform Asset
 	public AssetStump stump;					// Stump Asset
+	
+	// -= Pickup Items =-
+	public AssetCherry cherry;					// Standard Cherry
+	public AssetGoldCherry goldcherry;			// Gold Cherry
 	
 	// -= Decoration Assets =-
 	public AssetLevelDecoration decoration;		// Level Decoration Assets (And GUI background)
@@ -60,6 +66,8 @@ public class Assets implements Disposable, AssetErrorListener {
 	public class AssetSounds {
 		public final Sound jump;
 		public final Sound pause;
+		public final Sound pickup;
+		public final Sound goldpickup;
 
 		/**
 		 * Constructor for AssetSounds
@@ -69,6 +77,8 @@ public class Assets implements Disposable, AssetErrorListener {
 		public AssetSounds(AssetManager am) {
 			jump = am.get("sounds/jump.wav", Sound.class);
 			pause = am.get("sounds/pause.wav", Sound.class);
+			pickup = am.get("sounds/pickup.wav", Sound.class);
+			goldpickup = am.get("sounds/goldpickup.wav", Sound.class);
 		}
 	}
 	
@@ -90,6 +100,8 @@ public class Assets implements Disposable, AssetErrorListener {
 		// load sounds
 		assetManager.load("sounds/jump.wav", Sound.class);
 		assetManager.load("sounds/pause.wav", Sound.class);
+		assetManager.load("sounds/pickup.wav", Sound.class);
+		assetManager.load("sounds/goldpickup.wav", Sound.class);
 		// load music
 		assetManager.load("music/TitleScreen.mp3", Music.class);
 		assetManager.load("music/Level.mp3", Music.class);
@@ -117,6 +129,10 @@ public class Assets implements Disposable, AssetErrorListener {
 		woodplatform = new AssetWoodenPlatform(atlas);
 		stump = new AssetStump(atlas);
 		decoration = new AssetLevelDecoration(atlas);
+		
+		// Pickups
+		cherry = new AssetCherry(atlas);
+		goldcherry = new AssetGoldCherry(atlas);
 		
 		// Font Assets
 		fonts = new AssetFonts();
@@ -256,6 +272,39 @@ public class Assets implements Disposable, AssetErrorListener {
 			leftEdge = atlas.findRegion("StumpLeft");
 			rightEdge = atlas.findRegion("StumpRight");
 			middle = atlas.findRegion("StumpMiddle");
+		}
+	}
+	
+	/**
+	 * Pulls the Cherry texture from the atlas
+	 */
+	public class AssetCherry
+	{
+		public final AtlasRegion cherry;
+		
+		public AssetCherry(TextureAtlas atlas) {
+			cherry = atlas.findRegion("RedCherry");
+		}
+	}
+	
+	/**
+	 * Pulls the goldencherry animation from the atlas
+	 */
+	public class AssetGoldCherry
+	{
+		public final AtlasRegion goldcherry;
+		public final Animation Cherryani;
+		
+		@SuppressWarnings("unchecked")
+		public AssetGoldCherry(TextureAtlas atlas) {
+			goldcherry = atlas.findRegion("GoldCherry");
+			
+			// Animation: Gold Cherry
+			Array<AtlasRegion> regions = atlas.findRegions("aniGoldCherry");
+			AtlasRegion region = regions.first();
+			for (int i = 0; i < 5; i++)
+				regions.insert(0, region);
+			Cherryani = new Animation(1.0f / 20.0f, regions, Animation.PlayMode.LOOP);
 		}
 	}
 	

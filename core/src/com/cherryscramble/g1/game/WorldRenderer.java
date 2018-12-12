@@ -188,7 +188,7 @@ public class WorldRenderer implements Disposable
 	private void renderFinish(SpriteBatch batch) {
 		if (worldController.isGameOver()) {
 			finish = new Finish();
-			finish.position.set(350,300);
+			finish.position.set(330,300);
 			finish.render(batch);
 		}
 	}

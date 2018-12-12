@@ -5,6 +5,7 @@
 package com.cherryscramble.g1.objects;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -19,7 +20,7 @@ import com.cherryscramble.g1.util.AudioManager;
 
 public class Player extends AbstractGameObject implements ContactListener {
 	public static final String TAG = Player.class.getName();
-	//public ParticleEffect dustParticles = new ParticleEffect();  Particle Effects for another milestone
+	public ParticleEffect dustParticles = new ParticleEffect();  //Particle Effects for another milestone
 	private final float JUMP_TIME_MAX = 0.3f;	// The longest amount of time the player can jump
 	private final float JUMP_TIME_MIN = 0.1f;   // The shortest amount of time the player can jump
 	
@@ -29,9 +30,8 @@ public class Player extends AbstractGameObject implements ContactListener {
 	public JUMP_STATE jumpState;		 	// Player's jumping state
 	public float timeJumping;				// maximum jump time
 	
-	// Game instance for destroying object
-	private Game game;
-	
+	public int score;	// Doing a naughty to get my score count
+	public boolean poweredUp = false;
 	
 	/**
 	 * Player's Directional States
@@ -72,6 +72,9 @@ public class Player extends AbstractGameObject implements ContactListener {
 		// Player Jump State
 		jumpState = JUMP_STATE.FALLING;
 		timeJumping = 0;
+		
+		// Particles
+		dustParticles.load(Gdx.files.internal("particles/dust.p"), Gdx.files.internal("particles"));
 	}
 	
 	public void setJumping(boolean jumpKeyPressed) {
@@ -85,7 +88,7 @@ public class Player extends AbstractGameObject implements ContactListener {
 					// Start Counting the AirTime.
 					timeJumping = 0;					// Time Starts at 0
 					jumpState = JUMP_STATE.JUMP_RISING;	// Player Jump State becomes rising
-					//System.out.println("I jumped!");
+					this.body.setLinearVelocity(this.body.getLinearVelocity().x, 11);
 				}
 				break;
 				
@@ -98,7 +101,6 @@ public class Player extends AbstractGameObject implements ContactListener {
 				
 			case FALLING:	// Falling down
 			case JUMP_FALLING: 	// Falling down after jump
-				//System.out.println("I FALL!");
 				break;
 		}
 	}
@@ -124,10 +126,10 @@ public class Player extends AbstractGameObject implements ContactListener {
 		case GROUNDED:
 			jumpState = JUMP_STATE.FALLING;
 			// Only draw the dust if the player is on the ground
-			//if (velocity.x != 0) {
-				//dustParticles.setPosition(position.x + dimension.x / 2, position.y);
-				//dustParticles.start();
-			//}
+			if (velocity.x != 0) {
+				dustParticles.setPosition(position.x + dimension.x / 2, position.y);
+				dustParticles.start();
+			}
 			break;
 		case JUMP_RISING:
 			// Keep track of jump time
@@ -150,8 +152,8 @@ public class Player extends AbstractGameObject implements ContactListener {
 			}
 		}
 		if (jumpState != JUMP_STATE.GROUNDED)
-			//dustParticles.allowCompletion();
-			super.updateMotionY(deltaTime);
+			dustParticles.allowCompletion();
+			//super.updateMotionY(deltaTime);
 	}
 	
 	
@@ -167,21 +169,49 @@ public class Player extends AbstractGameObject implements ContactListener {
 		batch.draw(reg.getTexture(), position.x, position.y, origin.x, origin.y, dimension.x, dimension.y, scale.x, scale.y,
 				rotation, reg.getRegionX(), reg.getRegionY(), reg.getRegionWidth(), reg.getRegionHeight(), false, false);
 	}
+	
+	/**
+	 * Naughty method to return the score from cherry. Breaks som layering, but gets
+	 * the job done.
+	 */
+	public int getScore() {
+		int tempScore = 0;	// Reset the tempScore 0 to make me happy
+		tempScore = score;
+		score = 0;			// Resets the score so that we don't count collections already sent back
+		return tempScore;
+	}
 
 	@Override
 	public void beginContact(Contact contact) {
-		Fixture obja = contact.getFixtureA();
-		Fixture objb = contact.getFixtureB();
+		if(contact.getFixtureA().getBody().getUserData().getClass() == Ground.class || contact.getFixtureA().getBody().getUserData().getClass() == Stump.class ||
+				contact.getFixtureA().getBody().getUserData().getClass() == WoodPlatform.class) {
+			jumpState = JUMP_STATE.GROUNDED;
+			System.out.println("Grounded!");
+		} 
 		
-		System.out.println("Fixture a: " + contact.getFixtureA().getBody().getUserData());
-		System.out.println("Fixture b: " + contact.getFixtureB().getBody().getUserData());
+		if (contact.getFixtureB().getBody().getUserData().getClass() == Cherry.class) {
+			Cherry cherry = (Cherry) contact.getFixtureB().getBody().getUserData();
+			if (!cherry.collected) {
+				AudioManager.instance.play(Assets.instance.sounds.pickup);
+				cherry.collected = true;
+				score += cherry.getScore();
+			}
+		}
 		
+		if (contact.getFixtureB().getBody().getUserData().getClass() == GoldenCherry.class) {
+			GoldenCherry cherry = (GoldenCherry) contact.getFixtureB().getBody().getUserData();
+			if (!cherry.collected) {
+				AudioManager.instance.play(Assets.instance.sounds.goldpickup);
+				cherry.collected = true;
+				score += cherry.getScore();
+				poweredUp = true;
+			}
+		}
 	}
 
 	@Override
 	public void endContact(Contact contact) {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override

@@ -26,6 +26,10 @@ public class HighScoreScreen extends AbstractGameScreen{
 	private Image imgBackground;	// Background Image
 	private Button btnReturn;		// Return Button
 	
+	// Collecting HighScore stuff
+	private int finalScore;				// Final Score from game
+	private String name;				// Player name
+	
 	public HighScoreScreen(Game game) {
 		super(game);
 	}
@@ -37,6 +41,7 @@ public class HighScoreScreen extends AbstractGameScreen{
 	public void show() {
 		stage = new Stage();
 		Gdx.input.setInputProcessor(stage);
+		
 		rebuildStage();
 	}
 
@@ -85,6 +90,10 @@ public class HighScoreScreen extends AbstractGameScreen{
 			layer.add(new Label("50,000", skinLibgdx));					// Their Score
 			layer.row();
 		}
+		layer.row();
+		layer.row();
+		layer.row();
+		layer.add(new Label("You're final score: " + finalScore, skinLibgdx));
 		return layer;
 	}
 	
