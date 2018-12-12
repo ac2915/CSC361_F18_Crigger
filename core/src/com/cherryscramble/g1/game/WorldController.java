@@ -86,7 +86,7 @@ public class WorldController extends InputAdapter implements Disposable {
 	 */
 	private void initLevel() {
 		score = 0;								// Score Starts at zero
-		time = 0;//99;								// Level has a 99 second time limit
+		time = 60;								// Level has a 99 second time limit
 		wait = 5;								// 5 second wait time
 		pUtime = 5;								// Lazy poweup attempt
 		level = new Level(Constants.LEVEL_01); 	// Build the level 1 map
