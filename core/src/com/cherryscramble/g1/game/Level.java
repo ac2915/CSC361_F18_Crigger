@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import com.cherryscramble.g1.objects.AbstractGameObject;
+import com.cherryscramble.g1.objects.Cherry;
+import com.cherryscramble.g1.objects.GoldenCherry;
 import com.cherryscramble.g1.objects.Ground;
 import com.cherryscramble.g1.objects.Player;
 import com.cherryscramble.g1.objects.Shrub;
@@ -31,6 +33,10 @@ public class Level {
 	public Array<WoodPlatform> platforms;			// Platform Array
 	public Array<Stump> stumps;						// Stump Array
 	
+	// ===== Pick Ups =====
+	public Array<Cherry> cherries;					// Cherry pickups
+	public Array<GoldenCherry> goldcherries;		// Gold Cherry pickups
+	
 	// ===== Decoration Assets =====
 	public Shrub shrub;								// Shrub Background
 	public TreeTop treetop;							// TreeTop Foreground
@@ -45,7 +51,9 @@ public class Level {
 		TRUNKWALL_RIGHT(185,122,87),	// TrunkWall Right
 		WOOD_PLATFORM(255,201,14),		// Wooden Platform
 		STUMP(79,39,0),					// Stumps
-		PLAYER_SPAWN(255,255,255);		// Player Character Spawn Point
+		PLAYER_SPAWN(255,255,255),		// Player Character Spawn Point
+		CHERRY_SPAWN(151,0,0),			// Cherry Spawners
+		GOLD_CHERRY(170,132,0);			// Gold Cherry
 		
 		private int color;
 		
@@ -85,6 +93,10 @@ public class Level {
 		rightTrunkWalls = new Array<TrunkWallRight>();	// Right TrunkWall
 		platforms = new Array<WoodPlatform>();			// Wooden Platforms
 		stumps = new Array<Stump>();					// Stumps
+		
+		// Pickups
+		cherries = new Array<Cherry>();				// Standard Cherries
+		goldcherries = new Array<GoldenCherry>();	// Golden Cherries
 				
 		//Scan pixels from top-left to bottom-right
 		int lastPixel = -1;
@@ -177,6 +189,18 @@ public class Level {
 					player = (Player) obj;
 				}
 				
+				else if (BLOCK_TYPE.CHERRY_SPAWN.sameColor(currentPixel)) {
+					obj = new Cherry();
+					obj.position.set(pixelX,baseHeight * obj.dimension.y + offsetHeight);
+					cherries.add((Cherry)obj);
+				}
+				
+				else if (BLOCK_TYPE.GOLD_CHERRY.sameColor(currentPixel)) {
+					obj = new GoldenCherry();
+					obj.position.set(pixelX,baseHeight * obj.dimension.y + offsetHeight);
+					goldcherries.add((GoldenCherry)obj);
+				}
+				
 				//Unknown object/pixel color
 				else {
 					int r = 0xff & (currentPixel >>> 24); //Red color channel
@@ -237,6 +261,13 @@ public class Level {
 		// Player should be the last thing spawned in the same layer
 		player.render(batch);
 		
+		// Nah, its cherries that are last
+		for (Cherry cherry: cherries)
+			cherry.render(batch);
+		
+		for (GoldenCherry gcherry: goldcherries)
+			gcherry.render(batch);
+			
 		// -=-= FOREGROUND =-=-
 		treetop.render(batch);	// Draw TreeTops
 	}
@@ -264,5 +295,12 @@ public class Level {
 		//Stumps
 		for (Stump stump: stumps)
 			stump.update(deltaTime);
+		
+		// Cherries
+		for (Cherry cherry:cherries)
+			cherry.update(deltaTime);
+		
+		for (GoldenCherry gcherry: goldcherries)
+			gcherry.update(deltaTime);
 	}
 }
