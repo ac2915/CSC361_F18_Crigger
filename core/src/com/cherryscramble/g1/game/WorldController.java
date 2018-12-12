@@ -6,6 +6,11 @@
 
 package com.cherryscramble.g1.game;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
@@ -81,7 +86,7 @@ public class WorldController extends InputAdapter implements Disposable {
 	 */
 	private void initLevel() {
 		score = 0;								// Score Starts at zero
-		time = 99;								// Level has a 99 second time limit
+		time = 0;//99;								// Level has a 99 second time limit
 		wait = 5;								// 5 second wait time
 		pUtime = 5;								// Lazy poweup attempt
 		level = new Level(Constants.LEVEL_01); 	// Build the level 1 map
@@ -124,12 +129,12 @@ public class WorldController extends InputAdapter implements Disposable {
 		if(level.player.poweredUp)
 		{
 			speed = 2;	// double speed
-			time -= deltaTime;
+			pUtime -= deltaTime;
 			if(pUtime < 0)
 			{
-				pUtime = 0;
 				level.player.poweredUp = false;
-				speed = 0;
+				pUtime = 5;	// reset power up time stays at 0
+				speed = 1;	// Revert back to original speed
 			}
 		}
 		
@@ -138,6 +143,7 @@ public class WorldController extends InputAdapter implements Disposable {
 		// Possible box2d fix
 		if (switchScreen == true)
 		{
+			saveScore();
 			b2world = null;
 			game.setScreen(new HighScoreScreen(game));
 		}
@@ -212,13 +218,13 @@ public class WorldController extends InputAdapter implements Disposable {
 		
 		// Player Left/Right Movement
 		if (Gdx.input.isKeyPressed(Keys.LEFT)) {
-			level.player.body.setLinearVelocity(-3, level.player.body.getLinearVelocity().y);
+			level.player.body.setLinearVelocity(-3*speed, level.player.body.getLinearVelocity().y);
 			if(cameraHelper.getPosition().x > 12.6 && level.player.body.getPosition().x < 13)
 			{
 				moveCamera(-camMoveSpeed, 0);
 			}
 		} else if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
-			level.player.body.setLinearVelocity(3, level.player.body.getLinearVelocity().y);
+			level.player.body.setLinearVelocity(3*speed, level.player.body.getLinearVelocity().y);
 			if(cameraHelper.getPosition().x < 19.4 && level.player.body.getPosition().x > 19)
 			{
 				moveCamera(+camMoveSpeed, 0);
@@ -256,6 +262,26 @@ public class WorldController extends InputAdapter implements Disposable {
 			}
 		}
 		return false;
+	}
+	
+	public void saveScore() {
+		File file = new File("save.dat");	// File that holds the games scores
+		String stringScore; 				// Score in string format
+		
+		try
+		{
+			if(file.exists() == false)
+			{
+				file.createNewFile();	// Create the file if it doesn't exist yet
+			}
+			BufferedWriter output = new BufferedWriter(new FileWriter("save.dat", true));  // Open save for write
+			stringScore = Integer.toString(score); 	// Convert score to a sting
+			output.write(stringScore);				// Writes the score to the file
+			output.newLine();						// Adds a new line in the file (for organization).
+			output.close();							// Closes the file
+		} catch (IOException e) {
+			System.out.println("ERROR! COULD NOT WRITE SCORE TO FILE!!");
+		}
 	}
 	
 	/**

@@ -204,6 +204,7 @@ public class Player extends AbstractGameObject implements ContactListener {
 				AudioManager.instance.play(Assets.instance.sounds.goldpickup);
 				cherry.collected = true;
 				score += cherry.getScore();
+				//if (poweredUp = false)
 				poweredUp = true;
 			}
 		}
