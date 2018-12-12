@@ -19,11 +19,17 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.cherryscramble.g1.objects.Cherry;
+import com.cherryscramble.g1.objects.GoldenCherry;
 import com.cherryscramble.g1.objects.Ground;
 import com.cherryscramble.g1.objects.Stump;
 import com.cherryscramble.g1.objects.TrunkWallLeft;
 import com.cherryscramble.g1.objects.TrunkWallRight;
 import com.cherryscramble.g1.objects.WoodPlatform;
+import com.cherryscramble.g1.objects.Player.JUMP_STATE;
+import com.cherryscramble.g1.screens.GameScreen;
+import com.cherryscramble.g1.screens.HighScoreScreen;
+import com.cherryscramble.g1.util.AudioManager;
 import com.cherryscramble.g1.util.CameraHelper;
 import com.cherryscramble.g1.util.Constants;
 
@@ -37,7 +43,12 @@ public class WorldController extends InputAdapter implements Disposable {
 	
 	//GUI Vars
 	public int score;
+	public float wait;
 	public float time;
+	public float pUtime;
+	int pause = 0;
+	int speed = 1;
+	private boolean switchScreen;
 	
 	//Box2D Physics
 	public World b2world;
@@ -62,6 +73,7 @@ public class WorldController extends InputAdapter implements Disposable {
 
 		initLevel(); // Initializes the level
 		b2world.setContactListener(level.player); //Box 2d contact listener
+		switchScreen = false;	// switchScreen Position
 	}
 	
 	/**
@@ -70,6 +82,8 @@ public class WorldController extends InputAdapter implements Disposable {
 	private void initLevel() {
 		score = 0;								// Score Starts at zero
 		time = 99;								// Level has a 99 second time limit
+		wait = 5;								// 5 second wait time
+		pUtime = 5;								// Lazy poweup attempt
 		level = new Level(Constants.LEVEL_01); 	// Build the level 1 map
 		
 		initPhysics(); //Box2D Physics
@@ -80,12 +94,18 @@ public class WorldController extends InputAdapter implements Disposable {
 	 * @param deltaTime
 	 */
 	public void update(float deltaTime) {
-		handleDebugInput(deltaTime);
+		//handleDebugInput(deltaTime);
 		cameraHelper.update(deltaTime);
 		
 		// TimeLeft game over.
 		if (isGameOver()) {
-
+			if(wait < 0)
+			{
+				AudioManager.instance.stopMusic();
+				switchScreen = true;
+			}
+			else
+				wait -= deltaTime;
 		} else {
 			handleInput(deltaTime);
 		}
@@ -99,8 +119,27 @@ public class WorldController extends InputAdapter implements Disposable {
 			if(time < 0)
 			{
 				time = 0;
-				//Game Over!
 			}
+		}
+		if(level.player.poweredUp)
+		{
+			speed = 2;	// double speed
+			time -= deltaTime;
+			if(pUtime < 0)
+			{
+				pUtime = 0;
+				level.player.poweredUp = false;
+				speed = 0;
+			}
+		}
+		
+		score += level.player.getScore(); // Dirty method to collect cherry scores from box2d collision
+		
+		// Possible box2d fix
+		if (switchScreen == true)
+		{
+			b2world = null;
+			game.setScreen(new HighScoreScreen(game));
 		}
 	}
 	
@@ -109,7 +148,15 @@ public class WorldController extends InputAdapter implements Disposable {
 	 * @return
 	 */
 	public boolean isGameOver() {
-		return 1 < 0; // True value to keep the game going for now.
+		return time <= 0; // Game over when time is 0
+	}
+	
+	/**
+	 * Method returns the score that world controller contains
+	 * @return
+	 */
+	public int getScore() {
+		return score;
 	}
 	
 	/***
@@ -161,11 +208,28 @@ public class WorldController extends InputAdapter implements Disposable {
 	 */
 	private void handleInput(float deltatime)
 	{
+		float camMoveSpeed = 5 * deltatime;
+		
 		// Player Left/Right Movement
 		if (Gdx.input.isKeyPressed(Keys.LEFT)) {
 			level.player.body.setLinearVelocity(-3, level.player.body.getLinearVelocity().y);
+			if(cameraHelper.getPosition().x > 12.6 && level.player.body.getPosition().x < 13)
+			{
+				moveCamera(-camMoveSpeed, 0);
+			}
 		} else if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
 			level.player.body.setLinearVelocity(3, level.player.body.getLinearVelocity().y);
+			if(cameraHelper.getPosition().x < 19.4 && level.player.body.getPosition().x > 19)
+			{
+				moveCamera(+camMoveSpeed, 0);
+			}
+		} 
+		
+		// Player Jumping ability
+		if (Gdx.input.isKeyJustPressed(Keys.UP) || Gdx.input.isKeyJustPressed(Keys.SPACE)) {
+			level.player.setJumping(true);
+		} else {
+			level.player.setJumping(false);
 		}
 	}
 	
@@ -179,6 +243,17 @@ public class WorldController extends InputAdapter implements Disposable {
 		}
 		else if (keycode == Keys.RIGHT) {
 			level.player.body.setLinearVelocity(0, level.player.body.getLinearVelocity().y);
+		} else if (keycode == Keys.ESCAPE) {
+			if(pause == 0)
+			{
+				game.pause();
+				pause = 1;
+			}
+			else
+			{
+				game.resume();
+				pause = 0;
+			}
 		}
 		return false;
 	}
@@ -210,10 +285,9 @@ public class WorldController extends InputAdapter implements Disposable {
 			FixtureDef fixtureDef2 = new FixtureDef();
 			fixtureDef2.shape = polygonShape2;
 			body2.createFixture(fixtureDef2);
+			body2.setUserData(ground);	// it's user data
 			polygonShape2.dispose();
 		}
-		
-		System.out.println("Ground added!");
 		
 		// Platform Physics
 		for (WoodPlatform platform : level.platforms) {
@@ -229,10 +303,9 @@ public class WorldController extends InputAdapter implements Disposable {
 			FixtureDef fixtureDef2 = new FixtureDef();
 			fixtureDef2.shape = polygonShape2;
 			body2.createFixture(fixtureDef2);
+			body2.setUserData(platform);	// it's user data
 			polygonShape2.dispose();
 		}
-		
-		System.out.println("Platforms added!");
 		
 		// Stump Physics
 		for (Stump stump : level.stumps) {
@@ -248,10 +321,9 @@ public class WorldController extends InputAdapter implements Disposable {
 			FixtureDef fixtureDef2 = new FixtureDef();
 			fixtureDef2.shape = polygonShape2;
 			body2.createFixture(fixtureDef2);
+			body2.setUserData(stump);	// it's user data
 			polygonShape2.dispose();
 		}
-				
-		System.out.println("Stumps added!");
 		
 		// LeftWall Physics
 		for (TrunkWallLeft lw : level.leftTrunkWalls) {
@@ -267,10 +339,9 @@ public class WorldController extends InputAdapter implements Disposable {
 			FixtureDef fixtureDef2 = new FixtureDef();
 			fixtureDef2.shape = polygonShape2;
 			body2.createFixture(fixtureDef2);
+			body2.setUserData(lw);	// it's user data
 			polygonShape2.dispose();
 		}
-						
-		System.out.println("Left Tree Walls added!");
 		
 		// RightWall Physics
 		for (TrunkWallRight rw : level.rightTrunkWalls) {
@@ -286,10 +357,9 @@ public class WorldController extends InputAdapter implements Disposable {
 			FixtureDef fixtureDef2 = new FixtureDef();
 			fixtureDef2.shape = polygonShape2;
 			body2.createFixture(fixtureDef2);
+			body2.setUserData(rw);	// it's user data
 			polygonShape2.dispose();
 		}
-								
-		System.out.println("Right Tree Walls added!");
 		
 		// Player Physics
 		BodyDef player = new BodyDef();
@@ -304,12 +374,46 @@ public class WorldController extends InputAdapter implements Disposable {
 		FixtureDef fixtureDef = new FixtureDef();
 		fixtureDef.shape = polygonShape;
 		body.createFixture(fixtureDef);
+		body.setUserData(player);	// it's user data
 		polygonShape.dispose();
-				
-		System.out.println("Player added to box 2d!"); // Debug Message
 		
 		//cherry
-		//fixtureDef.isSensor = true;
+		for (Cherry cherry : level.cherries) {
+			BodyDef stum = new BodyDef();
+			stum.type = BodyType.StaticBody;
+			stum.position.set(cherry.position);
+			Body body2 = b2world.createBody(stum);
+			cherry.body = body2;
+			PolygonShape polygonShape2 = new PolygonShape();
+			origin.x = cherry.bounds.width / 2.0f;
+			origin.y = cherry.bounds.height / 2.0f;
+			polygonShape2.setAsBox(cherry.bounds.width / 2.0f, cherry.bounds.height / 2.0f, origin, 0);
+			FixtureDef fixtureDef2 = new FixtureDef();
+			fixtureDef2.shape = polygonShape2;
+			fixtureDef2.isSensor = true;
+			body2.createFixture(fixtureDef2);
+			body2.setUserData(cherry);	// it's user data
+			polygonShape2.dispose();
+		}
+		
+		//cherry
+		for (GoldenCherry gcherry : level.goldcherries) {
+			BodyDef stum = new BodyDef();
+			stum.type = BodyType.StaticBody;
+			stum.position.set(gcherry.position);
+			Body body2 = b2world.createBody(stum);
+			gcherry.body = body2;
+			PolygonShape polygonShape2 = new PolygonShape();
+			origin.x = gcherry.bounds.width / 2.0f;
+			origin.y = gcherry.bounds.height / 2.0f;
+			polygonShape2.setAsBox(gcherry.bounds.width / 2.0f, gcherry.bounds.height / 2.0f, origin, 0);
+			FixtureDef fixtureDef2 = new FixtureDef();
+			fixtureDef2.shape = polygonShape2;
+			fixtureDef2.isSensor = true;
+			body2.createFixture(fixtureDef2);
+			body2.setUserData(gcherry);	// it's user data
+			polygonShape2.dispose();
+		}
 	}
 	
 	/**

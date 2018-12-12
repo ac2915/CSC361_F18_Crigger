@@ -6,6 +6,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.cherryscramble.g1.game.Assets;
 import com.cherryscramble.g1.screens.MenuScreen;
+import com.cherryscramble.g1.util.AudioManager;
+import com.cherryscramble.g1.util.GamePreferences;
 
 /**
  * Main class that runs the game
@@ -25,8 +27,7 @@ private static final String TAG = CherryScrambleMain.class.getName();
 		// Load Assets
 		Assets.instance.init(new AssetManager());
 		
-		//GamePreferences.instance.load();							// Load Game Preferences
-		//AudioManager.instance.play(Assets.instance.music.song01);	// Play Menu Music
+		GamePreferences.instance.load();							// Load Game Preferences
 		
 		// Start the game at the menu screen
 		setScreen(new MenuScreen(this));

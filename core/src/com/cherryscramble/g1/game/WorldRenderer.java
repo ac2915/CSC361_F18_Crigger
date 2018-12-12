@@ -12,8 +12,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.Disposable;
 import com.cherryscramble.g1.game.WorldController;
+import com.cherryscramble.g1.objects.Finish;
 import com.cherryscramble.g1.objects.GuiBackground;
 import com.cherryscramble.g1.util.Constants;
+import com.cherryscramble.g1.util.GamePreferences;
 
 public class WorldRenderer implements Disposable
 {
@@ -26,8 +28,11 @@ public class WorldRenderer implements Disposable
 	//gui background
 	public GuiBackground gui;
 	
+	// Foreground
+	public Finish finish;
+	
 	// Box2D Debug (false when not needed)
-	private static final boolean DEBUG_DRAW_BOX2D_WORLD = true;
+	private static final boolean DEBUG_DRAW_BOX2D_WORLD = false;
 	private Box2DDebugRenderer b2debugRenderer;
 	
 	/**
@@ -93,11 +98,15 @@ public class WorldRenderer implements Disposable
 		// Draws the time remaining
 		renderTimeRemaining(batch);
 		// Draws the game's current fps
-		renderGuiFpsCounter(batch);
+		if (GamePreferences.instance.showFpsCounter)
+			renderGuiFpsCounter(batch);
+		else
+			renderText(batch);
+		
 		// draw the game start text
 		
 		// draw game over text
-		//renderGuiGameOverMessage(batch);
+		renderFinish(batch);
 		
 		batch.end();
 	}
@@ -158,6 +167,10 @@ public class WorldRenderer implements Disposable
 		fpsFont.setColor(1, 1, 1, 1); // white
 	}
 	
+	private void renderText(SpriteBatch batch) {
+		Assets.instance.fonts.defaultNormal.draw(batch, "Cherry Scramble", 650, 10);
+	}
+	
 	/**
 	 * Method draws the player's current score in the upper left corner of the gui panel
 	 */
@@ -169,7 +182,15 @@ public class WorldRenderer implements Disposable
 	 * Method draws the player's remaining time in the upper middle part of the gui panel
 	 */
 	private void renderTimeRemaining(SpriteBatch batch) {
-		Assets.instance.fonts.defaultNormal.draw(batch, "Time Left: " + worldController.time, 350, 10);
+		Assets.instance.fonts.defaultNormal.draw(batch, "Time Left: " + (int)worldController.time, 350, 10);
+	}
+	
+	private void renderFinish(SpriteBatch batch) {
+		if (worldController.isGameOver()) {
+			finish = new Finish();
+			finish.position.set(330,300);
+			finish.render(batch);
+		}
 	}
 	
 	/**

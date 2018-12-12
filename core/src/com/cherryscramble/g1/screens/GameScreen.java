@@ -3,8 +3,11 @@ package com.cherryscramble.g1.screens;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.cherryscramble.g1.game.Assets;
 import com.cherryscramble.g1.game.WorldController;
 import com.cherryscramble.g1.game.WorldRenderer;
+import com.cherryscramble.g1.util.AudioManager;
+import com.cherryscramble.g1.util.GamePreferences;
 
 /**
  * The Game Screen for Cherry Scramble. Screen where the game will play!
@@ -27,9 +30,10 @@ public class GameScreen extends AbstractGameScreen {
 	 */
 	@Override
 	public void show() {
-		//GamePreferences.instance.load();
+		GamePreferences.instance.load();
 		worldController = new WorldController(game);
 		worldRenderer = new WorldRenderer(worldController);
+		AudioManager.instance.play(Assets.instance.music.level);	// Play Level Music
 		Gdx.input.setCatchBackKey(true);
 	}
 
@@ -63,6 +67,8 @@ public class GameScreen extends AbstractGameScreen {
 	 */
 	@Override
 	public void pause() {
+		AudioManager.instance.pause();
+		AudioManager.instance.play(Assets.instance.sounds.pause);	// Pause chime
 		paused = true;
 	}
 
@@ -74,5 +80,16 @@ public class GameScreen extends AbstractGameScreen {
 		worldController.dispose();			// Disposes of the world controller.
 		worldRenderer.dispose();			// Disposes of the world renderer.
 		Gdx.input.setCatchBackKey(false);	// disables input.
+	}
+	
+	/**
+	 * If the user resumes then continue to update the game
+	 */
+	@Override
+	public void resume() {
+		super.resume();					// call resume
+		paused = false;					// pause boolean to false
+		AudioManager.instance.play(Assets.instance.sounds.pause);	// Pause chime
+		AudioManager.instance.resume();	// Resumes the background music
 	}
 }
